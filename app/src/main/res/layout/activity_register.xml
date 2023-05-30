@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            >
+            tools:context=".RegisterActivity">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -41,7 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                tools:context=".RegisterActivity">
 
                 <TextView
                     android:id="@+id/tvAnagrafici"
@@ -58,7 +59,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_gravity="center_horizontal"
+                    tools:context=".RegisterActivity">
 
                     <EditText
                         android:id="@+id/etNome"
@@ -120,7 +122,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    tools:context=".RegisterActivity">
 
                     <TextView
                         android:id="@+id/tvSesso"
@@ -153,7 +156,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp"
+                tools:context=".RegisterActivity">
 
                 <TextView
                     android:id="@+id/tvMedici"
@@ -170,7 +174,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    tools:context=".RegisterActivity">
 
                     <TextView
                         android:id="@+id/tvGruppoSanguigno"
@@ -226,7 +231,8 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    tools:context=".RegisterActivity">
 
                     <EditText
                         android:id="@+id/etContattoEm"
@@ -254,7 +260,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp"
+                tools:context=".RegisterActivity">
 
                 <TextView
                     android:id="@+id/tvPin"
@@ -268,26 +275,25 @@
 
                 <EditText
                     android:id="@+id/etPin"
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:inputType="numberPassword"
-                    />
+                    android:layout_marginTop="-38dp"
+                    android:layout_marginLeft="65dp"/>
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/btConferma"
+                android:id="@+id/bttConferma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="65dp"
                 android:backgroundTint="@android:color/holo_blue_light"
                 android:textSize="20dp"
                 android:textColor="@android:color/black"
-                android:enabled="false"
-                android:text="Conferma"
-                />
+                android:text="Conferma" />
 
         </LinearLayout>
     </ScrollView>
