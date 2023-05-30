@@ -31,7 +31,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="65dp"
-        android:src="@drawable/ring_life_icon"/>
+        android:src="@drawable/icona"/>
 
     <Button
         android:id="@+id/bttInUp"
