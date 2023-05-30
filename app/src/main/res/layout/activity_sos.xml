@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff8c00"
+    tools:context=".SosActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Informazioni sanitarie ferito"
+        android:fontFamily="@font/nunito_bold_italic"
+        android:textColor="@color/white"
+        android:textSize="45dp"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/tvNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome: Alessandro "
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvCognome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cognome: Simoni "
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvDataNascita"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data di nascita: 18/12/2000"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvPatologie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patologie: Nessuna"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvAllergie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Allergie: Acari della polvere e istamina "
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvGruppoSan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gruppo sanguineo: 0-"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvNumeriEmergenza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Numeri emergenza:\n3201533353\n3381942316\n3200728233 "
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+</LinearLayout>
