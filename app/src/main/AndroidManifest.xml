@@ -3,14 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCELEROMETER" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/ring_life_icon"
-        android:label=""
+        android:label="SmartSafe"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
@@ -35,6 +37,14 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.example.ringlife.HomeActivity.java"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SosActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.ringlife.SosActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
         </activity>

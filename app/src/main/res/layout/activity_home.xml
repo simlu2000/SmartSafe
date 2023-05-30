@@ -15,18 +15,39 @@
         android:textSize="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"/>
-    
+
     <TextView
         android:id="@+id/tvVelocita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stai andando a "
-        android:fontFamily="@font/nunito_bold_italic"
+        android:text="Stai andando a: "
+        android:fontFamily="@font/nunito_light"
         android:textColor="@color/black"
-        android:textSize="50dp"
+        android:textSize="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"/>
-    
+
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Luogo: "
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvCoordinate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Coordinate: "
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
 
 
     <View
@@ -50,6 +71,7 @@
 
 
         <ImageButton
+            android:id="@+id/bttSos"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
