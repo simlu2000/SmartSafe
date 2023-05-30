@@ -260,7 +260,7 @@
                     android:id="@+id/tvPin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PIN:"
+                    android:text="PIN*:"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
