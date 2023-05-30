@@ -1,7 +1,6 @@
 package com.example.ringlife;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,28 +10,18 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
-
 import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.model.SpeedLimit;
 import com.google.maps.GeoApiContext;
-import com.google.maps.RoadsApi;
-import com.google.maps.model.SnappedPoint;
-
-//Non so
 import android.location.Address;
 import android.location.Geocoder;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
-
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
