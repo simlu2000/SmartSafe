@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickButton(){
         bttInUp.setOnClickListener((v)->{
-            
+            Intent intentReg = new Intent(getString(R.string.LAUNCH_REGISTERACTIVITY));
+            startActivity(intentReg);
         });
     }
 
