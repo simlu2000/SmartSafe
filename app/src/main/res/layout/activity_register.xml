@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:padding="30dp"
-    tools:context=".ui.login.LoginActivity" >
+    tools:context=".RegisterActivity" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                         android:id="@+id/etNome"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
-                        android:hint="Nome"
+                        android:hint="Nome*"
                         android:layout_marginRight="25dp"
                         />
 
@@ -72,7 +72,7 @@
                         android:id="@+id/etCognome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Cognome"
+                        android:hint="Cognome*"
                         />
                 </LinearLayout>
 
@@ -80,7 +80,7 @@
                     android:id="@+id/etCodiceFiscale"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Codice Fiscale"
+                    android:hint="Codice Fiscale*"
                     android:layout_marginTop="10dp"
                     />
 
@@ -94,7 +94,7 @@
                         android:id="@+id/tvDataNascita"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Data di nascita"
+                        android:text="Data di nascita*"
                         android:textSize="18dp"
                         android:layout_marginRight="20dp"
                         />
@@ -103,7 +103,7 @@
                             android:id="@+id/etDataNascita"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="GG/MM/ANNO"
+                            android:hint="GG/MM/AAAA"
                             android:inputType="date"
                             />
                 </LinearLayout>
@@ -126,7 +126,7 @@
                         android:id="@+id/tvSesso"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sesso"
+                        android:text="Sesso*"
                         android:textSize="18dp"
                         android:layout_marginTop="10dp"
                         />
@@ -176,7 +176,7 @@
                         android:id="@+id/tvGruppoSanguigno"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gruppo sanguigno"
+                        android:text="Gruppo sanguigno*"
                         android:textSize="18dp"
                         android:layout_marginRight="20dp"
                         />
@@ -232,7 +232,7 @@
                         android:id="@+id/etContattoEm"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
-                        android:hint="Contatto d'emergenza"
+                        android:hint="Contatto d'emergenza*"
                         android:layout_marginRight="25dp"
                         />
 
