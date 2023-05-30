@@ -1,12 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    tools:context=".RegisterActivity">
+    android:layout_gravity="center"
+    android:padding="30dp"
+    tools:context=".ui.login.LoginActivity" >
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvRegistrazione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Registrati"
+                    android:textSize="40dp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
+        <!-- DATI ANAGRAFICI -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/tvAnagrafici"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DATI ANAGRAFICI:"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <EditText
+                        android:id="@+id/etNome"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Nome"
+                        android:layout_marginRight="25dp"
+                        />
+
+                    <EditText
+                        android:id="@+id/etCognome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Cognome"
+                        />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/etCodiceFiscale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Codice Fiscale"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tvDataNascita"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Data di nascita"
+                        android:textSize="18dp"
+                        android:layout_marginRight="20dp"
+                        />
+
+                        <EditText
+                            android:id="@+id/etDataNascita"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="GG/MM/ANNO"
+                            android:inputType="date"
+                            />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/etTelefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Telefono"
+                    android:inputType="phone"
+                    android:layout_marginTop="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tvSesso"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sesso"
+                        android:textSize="18dp"
+                        android:layout_marginTop="10dp"
+                        />
+                    <Spinner
+                        android:id="@+id/spSesso"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/Sesso"
+                        android:layout_marginTop="10dp"/>
+                        <!--
+                        <string-array name="Sesso">
+                            <item>Donna/a</item>
+                            <item>Uomo/a</item>
+                        </string-array>
+                        -->
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- CAMPI MEDICI  -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/tvMedici"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DATI MEDICI:"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tvGruppoSanguigno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gruppo sanguigno"
+                        android:textSize="18dp"
+                        android:layout_marginRight="20dp"
+                        />
+
+                    <Spinner
+                        android:id="@+id/spGruppoSanguigno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/GruppoSanguigno"
+                        />
+                    <!--  <string-array name="GruppoSanguigno">
+                    </string-array>
+                    -->
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nei seguenti campi, elenca andando a capo"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/holo_red_light"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <EditText
+                    android:id="@+id/etPatologie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Patologie"
+                    android:layout_marginTop="10dp"
+                    android:inputType="textLongMessage"
+                    />
+
+                <EditText
+                    android:id="@+id/etAllergie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Allergie"
+                    android:layout_marginTop="10dp"
+                    android:inputType="textLongMessage"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <EditText
+                        android:id="@+id/etContattoEm"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Contatto d'emergenza"
+                        android:layout_marginRight="25dp"
+                        />
+
+                    <EditText
+                        android:id="@+id/etTelefonoEm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Telefono"
+                        android:inputType="phone"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- PIN -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/tvPin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PIN:"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    />
+
+                <EditText
+                    android:id="@+id/etPin"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberPassword"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btConferma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="65dp"
+                android:backgroundTint="@android:color/holo_blue_light"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:enabled="false"
+                android:text="Conferma"
+                />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
