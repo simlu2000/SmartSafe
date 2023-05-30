@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         dbPerson = new PersonData(this);
         exist = dbPerson.ifExistPerson();
 
-        if(!exist){
+        if(exist){
             etPin.setVisibility(View.VISIBLE);
             bttInUp.setVisibility(View.INVISIBLE);
             int dbPin = 123456;

@@ -50,14 +50,6 @@
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
         </activity>
-                <activity
-            android:name=".SosActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.example.ringlife.SosActivity.java"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
