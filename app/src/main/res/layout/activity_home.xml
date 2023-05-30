@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ciao, "
+        android:fontFamily="@font/nunito_bold_italic"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"/>
+    
+    <TextView
+        android:id="@+id/tvVelocita"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stai andando a "
+        android:fontFamily="@font/nunito_bold_italic"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
+    
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#00bfff">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navhome"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
+
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navsos"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navprofile"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+</LinearLayout>

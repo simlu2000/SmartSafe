@@ -1,0 +1,113 @@
+package com.example.ringlife.Database;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
+import com.example.ringlife.PersonInformation.PersonInformation;
+
+public class PersonData extends SQLiteOpenHelper {
+
+    private static final int DATABASE_VERSION = 2;
+
+    private static final String DATABASE_NAME = "RingLifeDB";
+
+    private static final String TABLE_NAME = "PersonData";
+
+    private static final String KEY_CF = "CodiceFiscale";
+
+    private static final String KEY_NAME = "Nome";
+
+    private static final String KEY_SURNAME = "Cognome";
+
+    private static final String KEY_DATEOFBIRTH = "DataDiNascita";
+
+    private static final String KEY_TEL = "NumeroTelefono";
+
+    private static final String KEY_SEX = "Sesso";
+
+    private static final String KEY_GRBLOOD = "GruppoSanguigno";
+
+    private static final String KEY_PAT = "Patologie";
+
+    private static final String KEY_ALL = "Allergie";
+    
+    private static final String KEY_PIN = "Pin";
+
+
+
+    public PersonData(Context context) {
+        super(context, KEY_NAME, null, DATABASE_VERSION);
+    }
+
+    //creazione DB
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_PERSON_TABLE = "CREATE TABLE " + TABLE_NAME + "("
+                + KEY_CF + " STRING PRIMARY KEY,"
+                + KEY_NAME + " STRING, "
+                + KEY_SURNAME + " STRING, "
+                + KEY_DATEOFBIRTH + " STRING, "
+                + KEY_TEL + " INTEGER, "
+                + KEY_SEX + " STRING, "
+                + KEY_GRBLOOD + " STRING, "
+                + KEY_PAT + " STRING, "
+                + KEY_ALL + " STRING, "
+                + KEY_PIN + " INTEGER)";
+        db.execSQL(CREATE_PERSON_TABLE);
+    }
+
+    //aggiornamento DB
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int OldVersion, int NewVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
+        onCreate(db);
+    }
+
+    //aggiungiamo un account
+    public void addPerson(PersonInformation person){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_CF, person.getCodiceFiscale());
+        values.put(KEY_NAME, person.getNome());
+        values.put(KEY_SURNAME, person.getCognome());
+        values.put(KEY_DATEOFBIRTH, person.getDataDiNascita());
+        values.put(KEY_TEL, person.getTelefono());
+        values.put(KEY_SEX, person.getSesso());
+        values.put(KEY_GRBLOOD, person.getGruppoSanguigno());
+        values.put(KEY_PAT, person.getPatologie());
+        values.put(KEY_ALL, person.getAllergie());
+
+        db.insert(TABLE_NAME, null, values);
+        db.close();
+    }
+
+    //contiamo il numero di persone
+    public boolean ifExistPerson(){
+        String countQuery = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        if(count == 1)
+            return true;
+        else
+            return false;
+
+    }
+
+    public int getPinDB(){
+        String pinQuery = "SELECT " + KEY_PIN + " FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(pinQuery, null);
+        int pinReturn = Integer.parseInt(String.valueOf(cursor.getInt(cursor.getInt(9))));
+
+        cursor.close();
+        db.close();
+        return pinReturn;
+    }
+}
