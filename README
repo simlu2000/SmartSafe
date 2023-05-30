@@ -1,3 +1,4 @@
 Per permettere di far funzionare il codice:
 1) Aggiungere la configurazione vicino al play
 2) Se vi da un errore nell VCS mettete al posto di Git -> None
+3) Se tutto ciò non funziona svuotate la cache e fate ripartire tutto
