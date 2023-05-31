@@ -12,11 +12,12 @@ public class PersonInformation {
     private String gruppoSanguigno;
     private String patologie;
     private String allergie;
+    private String telefoniEmergenza;
     private String PIN;
 
     public PersonInformation(String codiceFiscale, String nome, String cognome, String dataDiNascita,
                              String telefono, String sesso, String gruppoSanguigno, String patologie,
-                             String allergie, String PIN){
+                             String allergie, String telefoniEmergenza, String PIN){
         this.codiceFiscale = codiceFiscale;
         this.nome = nome;
         this.cognome = cognome;
@@ -26,6 +27,7 @@ public class PersonInformation {
         this.gruppoSanguigno = gruppoSanguigno;
         this.patologie = patologie;
         this.allergie = allergie;
+        this.telefoniEmergenza = telefoniEmergenza;
         this.PIN = PIN;
     }
 
@@ -38,5 +40,6 @@ public class PersonInformation {
     public String getGruppoSanguigno(){return gruppoSanguigno;}
     public String getPatologie(){return patologie;}
     public String getAllergie(){return allergie;}
+    public String getTelefoniEmergenza(){return telefoniEmergenza;}
     public String getPIN(){return PIN;}
 }

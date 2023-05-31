@@ -1,5 +1,6 @@
 package com.example.ringlife;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -74,8 +75,11 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Inserisci un PIN con almeno 5 cifre e/o deve contenere solo numeri", Toast.LENGTH_LONG).show();
                     else{
                         dbPerson = new PersonData(RegisterActivity.this);
-                        PersonInformation personInformation = new PersonInformation(codiceFiscale, nome, cognome,dataNascita, telefono, sesso, gruppoSanguigno, patologie, allergie, pin);
+                        PersonInformation personInformation = new PersonInformation(codiceFiscale, nome, cognome,dataNascita, telefono, sesso, gruppoSanguigno, patologie, allergie, contattoEm, pin);
                         dbPerson.addPerson(personInformation);
+
+                        Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
+                        startActivity(intentHome);
                     }
                 }
             }

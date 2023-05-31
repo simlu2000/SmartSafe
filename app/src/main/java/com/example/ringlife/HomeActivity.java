@@ -16,6 +16,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
+
+import com.example.ringlife.Database.PersonData;
+import com.example.ringlife.PersonInformation.PersonInformation;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.GeoApiContext;
 import android.location.Address;
@@ -29,10 +32,11 @@ public class HomeActivity extends AppCompatActivity {
     private GeoApiContext geoApiContext;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private TextView tvVelocita, tvAddress, tvCoordinate;
+    private TextView tvHello, tvVelocita, tvAddress, tvCoordinate;
     private ImageButton bttSos;
     private String currentTextV, currentTextS, currentTextC, newTextV, newTextS, newTextC;
     private double latitude, longitude;
+    private PersonData dbPerson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +47,16 @@ public class HomeActivity extends AppCompatActivity {
         tvVelocita = findViewById(R.id.tvVelocita);
         tvAddress = findViewById(R.id.tvAddress);
         tvCoordinate = findViewById(R.id.tvCoordinate);
+        tvHello = findViewById(R.id.tvHello);
         bttSos = findViewById(R.id.bttSos);
         currentTextV = tvVelocita.getText().toString();
         currentTextS = tvAddress.getText().toString();
         currentTextC = tvCoordinate.getText().toString();
 
+        dbPerson = new PersonData(this);
+        PersonInformation user = dbPerson.getPerson();
+
+        tvHello.append(" " + user.getNome() + " " + user.getCognome());
 
 
         // Verifica e richiedi il permesso per l'accesso alla posizione, se necessario

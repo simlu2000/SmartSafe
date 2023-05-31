@@ -12,7 +12,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 7;
 
     private static final String DATABASE_NAME = "RingLifeDB";
 
@@ -35,7 +35,9 @@ public class PersonData extends SQLiteOpenHelper {
     private static final String KEY_PAT = "Patologie";
 
     private static final String KEY_ALL = "Allergie";
-    
+
+    private static final String KEY_EMTEL = "TelefoniEmmergenza";
+
     private static final String KEY_PIN = "Pin";
 
 
@@ -52,12 +54,13 @@ public class PersonData extends SQLiteOpenHelper {
                 + KEY_NAME + " STRING, "
                 + KEY_SURNAME + " STRING, "
                 + KEY_DATEOFBIRTH + " STRING, "
-                + KEY_TEL + " INTEGER, "
+                + KEY_TEL + " STRING, "
                 + KEY_SEX + " STRING, "
                 + KEY_GRBLOOD + " STRING, "
                 + KEY_PAT + " STRING, "
                 + KEY_ALL + " STRING, "
-                + KEY_PIN + " INTEGER)";
+                + KEY_EMTEL + " STRING, "
+                + KEY_PIN + " STRING)";
         db.execSQL(CREATE_PERSON_TABLE);
     }
 
@@ -82,6 +85,8 @@ public class PersonData extends SQLiteOpenHelper {
         values.put(KEY_GRBLOOD, person.getGruppoSanguigno());
         values.put(KEY_PAT, person.getPatologie());
         values.put(KEY_ALL, person.getAllergie());
+        values.put(KEY_EMTEL, person.getTelefoniEmergenza());
+        values.put(KEY_PIN, person.getPIN());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -100,14 +105,27 @@ public class PersonData extends SQLiteOpenHelper {
 
     }
 
-    public int getPinDB(){
+    public String getPinDB(){
         String pinQuery = "SELECT " + KEY_PIN + " FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(pinQuery, null);
-        int pinReturn = Integer.parseInt(String.valueOf(cursor.getInt(cursor.getInt(9))));
+        String pinReturn = cursor.getString(10);
 
         cursor.close();
         db.close();
         return pinReturn;
+    }
+
+    public PersonInformation getPerson(){
+        PersonInformation person;
+
+        String personQuery = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(personQuery, null);
+        cursor.moveToFirst();
+        person = new PersonInformation(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10));
+        cursor.close();
+        db.close();
+        return person;
     }
 }
