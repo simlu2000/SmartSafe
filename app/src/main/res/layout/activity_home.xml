@@ -7,12 +7,13 @@
     tools:context=".HomeActivity">
 
     <TextView
+        android:id="@+id/tvHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ciao, "
+        android:text="Ciao,"
         android:fontFamily="@font/nunito_bold_italic"
         android:textColor="@color/black"
-        android:textSize="50dp"
+        android:textSize="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"/>
 

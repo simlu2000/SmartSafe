@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ringlife.Database.PersonData;
+import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         if(exist){
             etPin.setVisibility(View.VISIBLE);
             bttInUp.setVisibility(View.INVISIBLE);
-            int dbPin = 123456;
+            PersonInformation user = dbPerson.getPerson();
             etPin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "Campo pin non valido", Toast.LENGTH_LONG).show();
                             } else {
                                 int intGetPin = Integer.parseInt(getPin);
-                                if (checkPin(dbPin, intGetPin)){
+                                if (checkPin(Integer.parseInt(user.getPIN()), intGetPin)){
                                     //Toast.makeText(MainActivity.this, "Pin corretto", Toast.LENGTH_LONG).show();
                                     Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
                                     startActivity(intentHome);
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }else{
             clickButton();
-       }
+        }
 
     }
 
