@@ -11,10 +11,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.example.ringlife.Database.PersonData;
+import com.example.ringlife.PersonInformation.PersonInformation;
+
 public class SosActivity extends AppCompatActivity {
 
     private TextView tvNome, tvCognome, tvDataNascita, tvPatologie, tvAllergie, tvGruppoSan, tvNumeriEmergenza;
-    private String numero = "3496190159";
+    private String numero = "3496190159", messaggio, coordinate;
+    private String latitude, longitude;
+    private PersonData dbPerson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +39,19 @@ public class SosActivity extends AppCompatActivity {
         callIntent.setData(Uri.parse( "tel:" + numero));
         startActivity(callIntent);*/
 
+        dbPerson = new PersonData(SosActivity.this);
+        PersonInformation user = dbPerson.getPerson();
+
+        Intent intentHome = getIntent();
+        latitude = intentHome.getStringExtra("latitude");
+        longitude = intentHome.getStringExtra("longitude");
+
         //Get the SmsManager instance and call the sendTextMessage method to send message
         SmsManager sms=SmsManager.getDefault();
-        sms.sendTextMessage(numero, null, "Ciao fede", null,null);
+        messaggio = "Messaggio generato da SmartSafe:\n " + user.getNome() + " " + user.getCognome() + " ha bisogno di aiuto e si trova alle coordinate: ";
+        coordinate = latitude + " " + longitude;
+        sms.sendTextMessage(numero, null, messaggio, null,null);
+        sms.sendTextMessage(numero, null, coordinate, null,null);
 
     }
 }

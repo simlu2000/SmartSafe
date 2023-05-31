@@ -35,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView tvHello, tvVelocita, tvAddress, tvCoordinate;
     private ImageButton bttSos;
     private String currentTextV, currentTextS, currentTextC, newTextV, newTextS, newTextC;
-    private double latitude, longitude;
+    private double latitude, longitude, latitudeSos, longitudeSos;
     private PersonData dbPerson;
 
     @Override
@@ -74,19 +74,20 @@ public class HomeActivity extends AppCompatActivity {
                 .apiKey(API_KEY)
                 .build();
 
-        accessSosScreen();
-    }
 
-    private void accessSosScreen(){
         bttSos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
-                startActivity(intent);
+                Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
+                intentSos.putExtra("latitude", String.valueOf(latitudeSos));
+                intentSos.putExtra("longitude", String.valueOf(longitudeSos));
+                startActivity(intentSos);
             }
         });
 
     }
+
+
 
     @Override
     protected void onResume() {
@@ -102,6 +103,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onPause();
         // Deregistra il listener di localizzazione quando l'applicazione è in background
         locationManager.removeUpdates(locationListener);
+    }
+
+    private void changeData(double latitude, double longitude){
+        latitudeSos = latitude;
+        longitudeSos = longitude;
     }
 
     private class MyLocationListener implements LocationListener {
@@ -121,7 +127,9 @@ public class HomeActivity extends AppCompatActivity {
             newTextV = currentTextV + String.format(Locale.getDefault(), "%.2f km/h", speedKmh);
             tvVelocita.setText(newTextV);
             newTextC = currentTextC + "\nLatitudine: " + latitude + "\nLongitudine: " + longitude;
+            changeData(latitude, longitude);
             tvCoordinate.setText(newTextC);
+
         }
 
         private class GetAddressTask extends AsyncTask<LatLng, Void, String> {
@@ -180,7 +188,7 @@ public class HomeActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permesso accordato, puoi iniziare a utilizzare la localizzazione
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
                 }
             } else {
                 // Permesso negato, gestisci questa situazione adeguatamente
