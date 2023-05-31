@@ -1,0 +1,7 @@
+* Cambiare l'inseramento dei dati nel db siccome non salva ancora bene i numeri di telefono di soccorsi, dovremmo riuscire a dare Etichetta (figlio, marito, moglie, ...)
+  e numero di telefono mentre ora salva solo l'etichetta, da modificare Registration.java e activity
+* Nella SosActivity dobbiamo prendere i dati direttamente dal DB mentre per ora gli scrivo io, quindi dobbiamo collefare la Sos al DB
+* Dobbiamo fare la schermata di intermezzo tra la HOME e la SOS con i collegamenti al DB
+* Eseguire nella HOME i calcoli che ci identificano un problema (prendendo la valocità ad esempio)
+
+ORA NON MI RICORDO ALTRE COSE CHE BISOGNANO FARE
