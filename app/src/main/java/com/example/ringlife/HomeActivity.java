@@ -4,6 +4,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
+
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
 import com.google.android.gms.maps.model.LatLng;
@@ -27,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements SensorEventListener {
     private static final String API_KEY = "AIzaSyCmBdC1PB8lvsxFPlwBSMVrjafhB__H-eg";
     private GeoApiContext geoApiContext;
     private LocationManager locationManager;
@@ -37,6 +42,10 @@ public class HomeActivity extends AppCompatActivity {
     private String currentTextV, currentTextS, currentTextC, newTextV, newTextS, newTextC;
     private double latitude, longitude, latitudeSos, longitudeSos;
     private PersonData dbPerson;
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private float previousSpeed;
+    private boolean accidentDetected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +94,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        previousSpeed = 0.0f;
+        accidentDetected = false;
+
     }
 
 
@@ -96,6 +112,9 @@ public class HomeActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
+
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -103,11 +122,50 @@ public class HomeActivity extends AppCompatActivity {
         super.onPause();
         // Deregistra il listener di localizzazione quando l'applicazione è in background
         locationManager.removeUpdates(locationListener);
+        sensorManager.unregisterListener(this);
     }
 
     private void changeData(double latitude, double longitude){
         latitudeSos = latitude;
         longitudeSos = longitude;
+    }
+
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            // Calcola l'accelerazione totale
+            float acceleration = (float) Math.sqrt(x * x + y * y + z * z);
+
+            // Converti l'accelerazione totale in velocità approssimativa
+            float speed = acceleration * 3.6f; // m/s to km/h
+
+            // Calcola la variazione di velocità rispetto alla velocità precedente
+            float speedChange = Math.abs(speed - previousSpeed);
+
+            // Imposta una soglia per rilevare una variazione significativa di velocità
+            float threshold = 200.0f; // Modifica la soglia a seconda delle tue esigenze
+
+            // Verifica se è stata rilevata una variazione significativa di velocità
+            if (speedChange > threshold) {
+                // Rilevato un possibile incidente
+                accidentDetected = true;
+                // Puoi eseguire qui le azioni appropriate, come inviare una notifica di emergenza o contattare i servizi di emergenza
+                // Passare alla schermata di rischiesta "Stai bene?"
+                Toast.makeText(this, "Possibile incidente rilevato!", Toast.LENGTH_SHORT).show();
+            }
+
+            previousSpeed = speed;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     private class MyLocationListener implements LocationListener {
@@ -196,4 +254,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
