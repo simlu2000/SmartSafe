@@ -17,7 +17,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 public class SosActivity extends AppCompatActivity {
 
     private TextView tvNome, tvCognome, tvDataNascita, tvPatologie, tvAllergie, tvGruppoSan, tvNumeriEmergenza;
-    private String numero = "3496190159", messaggio, coordinate;
+    private String numero = "3201533353", messaggio, coordinate;
     private String latitude, longitude;
     private PersonData dbPerson;
 
@@ -49,7 +49,8 @@ public class SosActivity extends AppCompatActivity {
         //Get the SmsManager instance and call the sendTextMessage method to send message
         SmsManager sms=SmsManager.getDefault();
         messaggio = "Messaggio generato da SmartSafe:\n " + user.getNome() + " " + user.getCognome() + " ha bisogno di aiuto e si trova alle coordinate: ";
-        coordinate = latitude + " " + longitude;
+        coordinate = "https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude;
+
         sms.sendTextMessage(numero, null, messaggio, null,null);
         sms.sendTextMessage(numero, null, coordinate, null,null);
 
