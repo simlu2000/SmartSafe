@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -11,6 +13,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +25,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,16 +34,23 @@ import com.google.maps.GeoApiContext;
 import android.location.Address;
 import android.location.Geocoder;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import pl.droidsonroids.gif.GifImageView;
 
 public class HomeActivity extends AppCompatActivity implements SensorEventListener {
     private static final String API_KEY = "AIzaSyCmBdC1PB8lvsxFPlwBSMVrjafhB__H-eg";
     private GeoApiContext geoApiContext;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private boolean permissionToRecordAccepted = false;
+    private MediaRecorder recorder;
     private TextView tvHello, tvVelocita, tvAddress, tvCoordinate;
     private ImageButton bttSos;
+    private GifImageView gifAmb;
     private String currentTextV, currentTextS, currentTextC, newTextV, newTextS, newTextC;
     private double latitude, longitude, latitudeSos, longitudeSos;
     private PersonData dbPerson;
@@ -46,6 +58,14 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private Sensor accelerometer;
     private float previousSpeed;
     private boolean accidentDetected;
+    private String[] permissions = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.INTERNET,
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.SEND_SMS,
+            Manifest.permission.RECORD_AUDIO
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +73,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        gifAmb = findViewById(R.id.gifAmb);
         tvVelocita = findViewById(R.id.tvVelocita);
         tvAddress = findViewById(R.id.tvAddress);
         tvCoordinate = findViewById(R.id.tvCoordinate);
@@ -65,24 +86,42 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         dbPerson = new PersonData(this);
         PersonInformation user = dbPerson.getPerson();
 
-        tvHello.append(" " + user.getNome() + " " + user.getCognome());
+        tvHello.append(" " + user.getNome());
 
 
-        // Verifica e richiedi il permesso per l'accesso alla posizione, se necessario
-        if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(HomeActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        List<String> missingPermissions = new ArrayList<>();
+
+        // Verifica e aggiungi i permessi mancanti alla lista
+        for (String permission : permissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                missingPermissions.add(permission);
+            }
+        }
+
+        // Verifica se ci sono permessi mancanti
+        if (!missingPermissions.isEmpty()) {
+            // Array dei permessi mancanti da richiedere
+            String[] permissionsToRequest = missingPermissions.toArray(new String[0]);
+
+            // Richiedi i permessi mancanti all'utente
+            ActivityCompat.requestPermissions(this, permissionsToRequest, 1);
         } else {
+            // Hai tutti i permessi necessari
             // Inizializza il servizio di localizzazione
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationListener = new MyLocationListener();
+            // Inizializza l'oggetto GeoApiContext con la tua API_KEY
+            geoApiContext = new GeoApiContext.Builder()
+                    .apiKey(API_KEY)
+                    .build();
+
+            sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+            previousSpeed = 0.0f;
+            accidentDetected = false;
         }
-
-        // Inizializza l'oggetto GeoApiContext con la tua API_KEY
-        geoApiContext = new GeoApiContext.Builder()
-                .apiKey(API_KEY)
-                .build();
-
 
         bttSos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,14 +132,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                 startActivity(intentSos);
             }
         });
-
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        previousSpeed = 0.0f;
-        accidentDetected = false;
-
     }
 
 

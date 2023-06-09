@@ -6,6 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#00bfff">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="SmartSafe"
+            android:textSize="40dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito_bold_italic"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="5dp"/>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifAmb"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="-150dp"
+            android:src="@drawable/ambulanza"/>
+
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tvHello"
         android:layout_width="wrap_content"
@@ -78,7 +104,8 @@
             android:layout_weight="1"
             android:src="@drawable/navsos"
             android:background="@android:color/transparent"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            />
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="60dp"
