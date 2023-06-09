@@ -45,9 +45,11 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private GeoApiContext geoApiContext;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
-    private boolean permissionToRecordAccepted = false;
-    private MediaRecorder recorder;
+
+    private static final int SOUND_THRESHOLD = 32500; // Soglia di volume per rilevare un suono forte (puoi regolarla in base alle tue esigenze)
+    private static final float threshold = 200.0f; // Modifica la soglia a seconda delle tue esigenze
+    private MediaRecorder mediaRecorder;
+    private boolean isRecording = false;
     private TextView tvHello, tvVelocita, tvAddress, tvCoordinate;
     private ImageButton bttSos;
     private GifImageView gifAmb;
@@ -64,7 +66,8 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             Manifest.permission.INTERNET,
             Manifest.permission.CALL_PHONE,
             Manifest.permission.SEND_SMS,
-            Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_NETWORK_STATE
     };
 
     @Override
@@ -121,6 +124,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
             previousSpeed = 0.0f;
             accidentDetected = false;
+            startRecording();
         }
 
         bttSos.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +136,65 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                 startActivity(intentSos);
             }
         });
+    }
+
+    private void startRecording() {
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        String outputFile = getFilesDir().getAbsolutePath() + "/audio.3gp";
+        mediaRecorder.setOutputFile(outputFile);
+
+        try {
+            mediaRecorder.prepare();
+            mediaRecorder.start();
+            isRecording = true;
+            checkSoundLevel();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error starting recording: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
+    private void checkSoundLevel() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRecording) {
+                    int amplitude = mediaRecorder.getMaxAmplitude();
+                    if (amplitude > SOUND_THRESHOLD) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HomeActivity.this, "Rumore alto rilevato!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    try {
+                        Thread.sleep(1000); // Controlla il livello di suono ogni secondo (puoi regolare l'intervallo in base alle tue esigenze)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void stopRecording() {
+        if (mediaRecorder != null && isRecording) {
+            isRecording = false;
+            try {
+                mediaRecorder.stop();
+                mediaRecorder.reset();
+                mediaRecorder.release();
+                mediaRecorder = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -156,6 +219,12 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.unregisterListener(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopRecording();
+    }
+
     private void changeData(double latitude, double longitude){
         latitudeSos = latitude;
         longitudeSos = longitude;
@@ -177,9 +246,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
             // Calcola la variazione di velocità rispetto alla velocità precedente
             float speedChange = Math.abs(speed - previousSpeed);
-
-            // Imposta una soglia per rilevare una variazione significativa di velocità
-            float threshold = 200.0f; // Modifica la soglia a seconda delle tue esigenze
 
             // Verifica se è stata rilevata una variazione significativa di velocità
             if (speedChange > threshold) {
