@@ -35,9 +35,6 @@ public class SosActivity extends AppCompatActivity {
         tvGruppoSan = findViewById(R.id.tvGruppoSan);
         tvNumeriEmergenza = findViewById(R.id.tvNumeriEmergenza);*/
 
-        /*Intent callIntent =  new  Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse( "tel:" + numero));
-        startActivity(callIntent);*/
 
         dbPerson = new PersonData(SosActivity.this);
         PersonInformation user = dbPerson.getPerson();
@@ -48,11 +45,15 @@ public class SosActivity extends AppCompatActivity {
 
         //Get the SmsManager instance and call the sendTextMessage method to send message
         SmsManager sms=SmsManager.getDefault();
-        messaggio = "Messaggio generato da SmartSafe:\n " + user.getNome() + " " + user.getCognome() + " ha bisogno di aiuto e si trova alle coordinate: ";
+        messaggio = "Messaggio generato da SmartSafe: ho bisogno di aiuto, sono qui: ";
         coordinate = "https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude;
 
         sms.sendTextMessage(numero, null, messaggio, null,null);
         sms.sendTextMessage(numero, null, coordinate, null,null);
+
+        Intent callIntent =  new  Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse( "tel: 3489121618"));
+        startActivity(callIntent);
 
     }
 }
