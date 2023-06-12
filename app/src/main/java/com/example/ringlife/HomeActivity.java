@@ -4,12 +4,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,19 +20,16 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.GeoApiContext;
-import android.location.Address;
-import android.location.Geocoder;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,9 +127,9 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         bttSos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
-                intentSos.putExtra("latitude", String.valueOf(latitudeSos));
-                intentSos.putExtra("longitude", String.valueOf(longitudeSos));
+                Intent intentSos = new Intent("com.example.ringlife.DetectionActivity.java");//Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
+                /*intentSos.putExtra("latitude", String.valueOf(latitudeSos));
+                intentSos.putExtra("longitude", String.valueOf(longitudeSos));*/
                 startActivity(intentSos);
             }
         });
