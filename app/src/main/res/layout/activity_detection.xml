@@ -1,0 +1,117 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <!-- Testo in alto al centro -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Sono stati rilevati dati anomali\nTutto bene?"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:layout_marginTop="150px"/>
+
+    <!-- Due icone cliccabili in una riga -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+        <ImageButton
+            android:id="@+id/yesBtn"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:onClick="onIcon1Clicked"
+            android:src="@drawable/icon_yes"
+            android:background="@color/white"
+            android:textSize="20sp"
+            />
+
+        <ImageButton
+            android:id="@+id/noBtn"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:onClick="onIcon2Clicked"
+            android:src="@drawable/icon_no"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+    <!-- Quadrante timer di 10 secondi -->
+    <FrameLayout
+        android:id="@+id/flTimer"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.308"
+        android:layout_marginTop="30dp" >
+        <!-- - Quadrante - -->
+        <ProgressBar
+            android:id="@+id/pbTimer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:max="10"
+            android:progress="10"
+            android:rotation="-90"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:background="@drawable/gray_progressbar_background"
+            android:progressDrawable="@drawable/blue_progressbar_background" />
+        <!-- Testo count down -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center" >
+            <TextView
+                android:id="@+id/tvTimeLeft"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="26sp"
+                android:textColor="@color/black"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SEC"
+                android:gravity="center"
+                android:fontFamily="@font/nunito_bold"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Numeri di telefono -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Numeri di emergenza:"
+        android:fontFamily="@font/nunito_bold"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <ListView
+        android:id="@+id/numeroCellulareList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
