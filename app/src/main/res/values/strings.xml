@@ -4,5 +4,6 @@
     <string name="LAUNCH_HOMEACTIVITY">com.example.ringlife.HomeActivity.java</string>
     <string name="LAUNCH_REGISTERACTIVITY">com.example.ringlife.RegisterActivity.java</string>
     <string name="LAUNCH_SOSACTIVITY">com.example.ringlife.SosActivity.java</string>
+    <string name="LAUNCH_DETECTIONACTIVITY">com.example.ringlife.DetectionActivity.java</string>
 
 </resources>
