@@ -227,29 +227,51 @@
                     />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:id="@+id/lytContatti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     tools:context=".RegisterActivity">
 
-                    <EditText
-                        android:id="@+id/etContattoEm"
-                        android:layout_width="160dp"
-                        android:layout_height="wrap_content"
-                        android:hint="Contatto d'emergenza*"
-                        android:layout_marginRight="25dp"
-                        />
-
-                    <EditText
-                        android:id="@+id/etTelefonoEm"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Telefono"
-                        android:inputType="phone"
-                        />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        tools:context=".RegisterActivity">
+
+                        <EditText
+                            android:id="@+id/etContattoEm"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Contatto \nd'emergenza*"
+                            android:layout_marginRight="25dp"
+                            android:inputType="textCapWords"
+
+                            />
+
+                        <EditText
+                            android:id="@+id/etTelefonoEm"
+                            android:layout_width="120dp"
+                            android:layout_marginTop="9dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Telefono"
+                            android:inputType="phone"
+                            />
+                    </LinearLayout>
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/bttNuoviElementi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="125dp"
+                    android:backgroundTint="@android:color/holo_blue_light"
+                    />
 
             </LinearLayout>
 
