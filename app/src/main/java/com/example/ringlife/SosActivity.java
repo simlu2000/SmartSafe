@@ -1,13 +1,11 @@
 package com.example.ringlife;
 
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -17,7 +15,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 public class SosActivity extends AppCompatActivity {
 
     private TextView tvNome, tvCognome, tvDataNascita, tvPatologie, tvAllergie, tvGruppoSan, tvNumeriEmergenza;
-    private String numero = "3201533353", messaggio, coordinate;
+    private String numero = "3518844529", messaggio, coordinate;
     private String latitude, longitude;
     private PersonData dbPerson;
 
@@ -52,8 +50,13 @@ public class SosActivity extends AppCompatActivity {
         sms.sendTextMessage(numero, null, coordinate, null,null);
 
         Intent callIntent =  new  Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse( "tel: 3489121618"));
+        callIntent.setData(Uri.parse( "tel: 3518844529"));
         startActivity(callIntent);
 
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

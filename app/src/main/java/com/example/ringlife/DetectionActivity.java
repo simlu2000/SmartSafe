@@ -1,7 +1,11 @@
 package com.example.ringlife;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,26 +18,55 @@ public class DetectionActivity extends AppCompatActivity {
     private int timeProgress = 0;
     private long pauseOffSet = 0;
     private boolean isStart = true;
+    private String latitude, longitude;
+
+
+    private ImageButton yesBtn, noBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detection);
 
+        yesBtn = findViewById(R.id.yesBtn);
+        noBtn = findViewById(R.id.noBtn);
+
         ProgressBar progressBar = findViewById(R.id.pbTimer);
-        timeSelected = 15;
+        timeSelected = 10;
         progressBar.setMax(timeSelected);
         timePause();
-        startTimer(pauseOffSet);
-        Toast.makeText(this, "15 sec all'invio del SOS", Toast.LENGTH_SHORT).show();
+        progressBar.setProgress(10);
+        Toast.makeText(this, timeSelected + " sec all'invio del SOS", Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler();
 
-        /*ImageButton addBtn = findViewById(R.id.btnAdd);
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startTimer(pauseOffSet);
+            }
+        }, 1000);
+
+
+
+        yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTimeFunction();
+                timePause();
+                Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentHome);
             }
-        });*/
+        });
+
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePause();
+                Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intentSos.putExtra("latitude", String.valueOf(latitude));
+                intentSos.putExtra("longitude", String.valueOf(longitude));
+                startActivity(intentSos);
+            }
+        });
 
         /*Button startBtn = findViewById(R.id.btnPlayPause);
         startBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +118,6 @@ public class DetectionActivity extends AppCompatActivity {
 
     private void startTimer(long pauseOffSetL) {
         ProgressBar progressBar = findViewById(R.id.pbTimer);
-        progressBar.setProgress(timeProgress);
         timeCountDown = new CountDownTimer((timeSelected * 1000) - (pauseOffSetL * 1000), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -100,6 +132,13 @@ public class DetectionActivity extends AppCompatActivity {
             public void onFinish() {
                 // CHIAMA SOS QUIII
                 Toast.makeText(DetectionActivity.this, "Avvio SOS in corso...", Toast.LENGTH_SHORT).show();
+                Intent intentHome = getIntent();
+                latitude = intentHome.getStringExtra("latitude");
+                longitude = intentHome.getStringExtra("longitude");
+                Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
+                intentSos.putExtra("latitude", String.valueOf(latitude));
+                intentSos.putExtra("longitude", String.valueOf(longitude));
+                startActivity(intentSos);
             }
         }.start();
     }
@@ -109,7 +148,7 @@ public class DetectionActivity extends AppCompatActivity {
         super.onDestroy();
         if (timeCountDown != null) {
             timeCountDown.cancel();
-            timeProgress = 15;
+            timeProgress = 10;
         }
     }
 

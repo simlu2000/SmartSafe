@@ -2,11 +2,17 @@ package com.example.ringlife;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,13 +20,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private final String TAG = "RegisterActivity";
-    private EditText etNome, etCognome, etCodiceFiscale, etDataNascita, etTelefono, etPatologie, etAllergie, etContattoEm, etPin;
+    private EditText etNome, etCognome, etCodiceFiscale, etDataNascita, etTelefono, etPatologie, etAllergie, etContattoEm, etPin, etTelefonoEm;
     private Spinner spSesso, spGruppoSanguigno;
-    private Button bttConferma;
+    private Button bttConferma, bttNuoviElementi;
     private PersonData dbPerson;
+    private LinearLayout lytContatti;
+    private int maxCont = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +48,146 @@ public class RegisterActivity extends AppCompatActivity {
         etPatologie = findViewById(R.id.etPatologie);
         etAllergie = findViewById(R.id.etAllergie);
         etContattoEm = findViewById(R.id.etContattoEm);
+        etTelefonoEm = findViewById(R.id.etTelefonoEm);
         etPin = findViewById(R.id.etPin);
 
         spSesso = findViewById(R.id.spSesso);
         spGruppoSanguigno = findViewById(R.id.spGruppoSanguigno);
 
+        lytContatti = findViewById(R.id.lytContatti);
+
+        bttNuoviElementi = findViewById(R.id.bttNuoviElementi);
         bttConferma = findViewById(R.id.bttConferma);
 
-        Log.i(TAG, "Prima della funzione");
-        insertInDB();
-        Log.i(TAG, "Dopo la funzione");
+        etDataNascita.addTextChangedListener(new TextWatcher() {
+            boolean isFormatting;
+            boolean deletingHyphen;
+            int hyphenStart;
+            boolean deletingBackward;
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                deletingBackward = count > after;
+                if (deletingBackward && s.charAt(start) == '/') {
+                    deletingHyphen = true;
+                    hyphenStart = start;
+                } else {
+                    deletingHyphen = false;
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No need to implement
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isFormatting) {
+                    return;
+                }
+
+                isFormatting = true;
+
+                if (deletingBackward && deletingHyphen) {
+                    s.delete(hyphenStart, hyphenStart + 1);
+                }
+
+                // Rimuovi tutti i trattini correnti
+                String originalText = s.toString().replaceAll("/", "");
+
+                StringBuilder formattedText = new StringBuilder();
+                int segmentLengths[] = {2, 2, 4}; // Lunghezza di ogni segmento
+
+                int length = originalText.length();
+                int totalSegments = segmentLengths.length;
+
+                int segmentStart = 0;
+
+                for (int i = 0; i < totalSegments; i++) {
+                    int segmentLength = segmentLengths[i];
+                    int segmentEnd = Math.min(segmentStart + segmentLength, length);
+                    formattedText.append(originalText, segmentStart, segmentEnd);
+
+                    if (segmentEnd < length) {
+                        formattedText.append("/"); // Aggiungi il trattino
+                    }
+
+                    segmentStart = segmentEnd;
+                }
+
+                etDataNascita.removeTextChangedListener(this);
+                etDataNascita.setText(formattedText.toString());
+                etDataNascita.setSelection(formattedText.length());
+                etDataNascita.addTextChangedListener(this);
+
+                isFormatting = false;
+            }
+        });
+
+        bttNuoviElementi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(maxCont<4){
+                    createNewTextViewAndEditText(lytContatti, maxCont+1);
+                    maxCont++;
+                }else{
+                    Toast.makeText(RegisterActivity.this, "Non puoi aggiungere più numeri di telefono", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        insertInDB();
     }
+
+    private void createNewTextViewAndEditText(LinearLayout layout, int n){
+        //create names id for edit text and text view
+        LinearLayout lytContTel = new LinearLayout(this);
+        lytContTel.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        lytContTel.setOrientation(LinearLayout.HORIZONTAL);
+        lytContTel.setGravity(Gravity.CENTER_HORIZONTAL);
+        lytContTel.setPadding(0, 10, 0, 0);
+
+
+
+        //create edit text contatto emergenza
+        EditText editTextContattoEm = new EditText(this);
+        editTextContattoEm.setId(View.generateViewId());
+        editTextContattoEm.setTag("etContattoEm" + n);
+        editTextContattoEm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        editTextContattoEm.setHint("Contatto \nd'emergenza*");
+        editTextContattoEm.setLayoutParams(new LinearLayout.LayoutParams(
+                dpToPx(160), // Larghezza fissa di 160dp
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        //create edit text telefono emergenza
+        EditText editTextTelefonoEm = new EditText(this);
+        editTextTelefonoEm.setId(View.generateViewId());
+        editTextTelefonoEm.setTag("etTelefonoEm" + n);
+        editTextTelefonoEm.setHint("Telefono");
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                dpToPx(120), // Width of 160dp
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(dpToPx(25), dpToPx(10), 0, 0);
+        editTextTelefonoEm.setLayoutParams(params);
+
+        //add edit text to layout
+        lytContTel.addView(editTextContattoEm);
+        lytContTel.addView(editTextTelefonoEm);
+
+        layout.addView(lytContTel);
+    }
+
+    // Utility method to convert dp to pixels
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
+    }
+
+
 
     private void insertInDB(){
         Log.i(TAG, "Entro nella funzione");
@@ -60,13 +201,15 @@ public class RegisterActivity extends AppCompatActivity {
                 String telefono = etTelefono.getText().toString().trim();
                 String patologie = etPatologie.getText().toString();
                 String allergie = etAllergie.getText().toString();
-                String contattoEm = etContattoEm.getText().toString();
+                String contattoEm = getContattoEm();
+                String telefonoEm = getTelefonoEm();
                 String pin = etPin.getText().toString().trim();
-
                 String sesso = spSesso.getSelectedItem().toString();
                 String gruppoSanguigno = spGruppoSanguigno.getSelectedItem().toString();
 
-                if (nome.isEmpty() || cognome.isEmpty() || codiceFiscale.isEmpty() || dataNascita.isEmpty() ||
+                Toast.makeText(RegisterActivity.this, "Contatto: " + contattoEm + " Telefono: " + telefonoEm, Toast.LENGTH_LONG).show();
+
+                /*if (nome.isEmpty() || cognome.isEmpty() || codiceFiscale.isEmpty() || dataNascita.isEmpty() ||
                         telefono.isEmpty() || patologie.isEmpty() || allergie.isEmpty() || contattoEm.isEmpty()
                         || pin.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Tutti i campi devono essere compilati", Toast.LENGTH_LONG).show();
@@ -75,14 +218,49 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Inserisci un PIN con almeno 5 cifre e/o deve contenere solo numeri", Toast.LENGTH_LONG).show();
                     else{
                         dbPerson = new PersonData(RegisterActivity.this);
-                        PersonInformation personInformation = new PersonInformation(codiceFiscale, nome, cognome,dataNascita, telefono, sesso, gruppoSanguigno, patologie, allergie, contattoEm, pin);
+                        PersonInformation personInformation = new PersonInformation(codiceFiscale, nome, cognome,dataNascita, telefono, sesso, gruppoSanguigno, patologie, allergie, contattoEm, telefonoEm, pin);
                         dbPerson.addPerson(personInformation);
 
                         Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
                         startActivity(intentHome);
                     }
-                }
+                }*/
             }
         });
+    }
+
+    //Fare da qui
+    private String getContattoEm(){
+        String contattoEm = etContattoEm.getText().toString();
+        if(maxCont==0)
+            return contattoEm;
+        else{
+            for(int i=1; i<=maxCont; i++){
+                String editTextTag = "etContattoEm" + i;
+                EditText editText = findViewWithTag(editTextTag);
+
+                if(editText != null)
+                    contattoEm = contattoEm + ", " + editText.getText().toString();
+            }
+
+            return contattoEm;
+        }
+    }
+
+    private String getTelefonoEm(){
+        String telefonoEm = etTelefonoEm.getText().toString();
+        if(maxCont==0)
+            return telefonoEm;
+        else{
+            for(int i=1; i<=maxCont; i++){
+                String editTextTag = "etTelefonoEm" + i;
+                EditText editText = findViewWithTag(editTextTag);
+
+                if(editText != null)
+                    telefonoEm = telefonoEm + ", " + editText.getText().toString();
+            }
+
+            return telefonoEm;
+        }
     }
 }
