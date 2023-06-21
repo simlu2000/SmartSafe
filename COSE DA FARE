@@ -2,11 +2,6 @@
   e numero di telefono mentre ora salva solo l'etichetta, da modificare Registration.java e activity
 * Nella SosActivity dobbiamo prendere i dati direttamente dal DB mentre per ora gli scrivo io, quindi dobbiamo collefare la Sos al DB
 * Dobbiamo fare la schermata di intermezzo tra la HOME e la SOS con i collegamenti al DB
-* Eseguire nella HOME i calcoli che ci identificano un problema (prendendo la valocità ad esempio)
 * Dobbiamo fare la parte di visualizzazione del profilo utente + modifica dati + elimina account + sezione dei trattamento dei dati personali + crediti + guida + 
   condividi?
-
-* Dobbiamo fare il rilevamento del rumore 
-* Richiedere correttamente i permessi
-* Se non c'è il segnale usare chiamate di emergenza 
-* Salavare i dati di passaggio da home a SOS
+* Salvare i dati di passaggio da home a SOS
