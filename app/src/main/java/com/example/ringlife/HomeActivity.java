@@ -127,17 +127,14 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         bttSos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAlarm();
+                Intent intentSos = new Intent("com.example.ringlife.DetectionActivity.java");//Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
+                /*intentSos.putExtra("latitude", String.valueOf(latitudeSos));
+                intentSos.putExtra("longitude", String.valueOf(longitudeSos));*/
+                startActivity(intentSos);
             }
         });
     }
 
-    private void callAlarm(){
-        Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));//Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
-        intentDetect.putExtra("latitude", String.valueOf(latitudeSos));
-        intentDetect.putExtra("longitude", String.valueOf(longitudeSos));
-        startActivity(intentDetect);
-    }
     private void startRecording() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -169,7 +166,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                             @Override
                             public void run() {
                                 Toast.makeText(HomeActivity.this, "Rumore alto rilevato!", Toast.LENGTH_SHORT).show();
-                                callAlarm();
                             }
                         });
                     }
@@ -255,7 +251,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                 // Puoi eseguire qui le azioni appropriate, come inviare una notifica di emergenza o contattare i servizi di emergenza
                 // Passare alla schermata di rischiesta "Stai bene?"
                 Toast.makeText(this, "Possibile incidente rilevato!", Toast.LENGTH_SHORT).show();
-                callAlarm();
             }
 
             previousSpeed = speed;

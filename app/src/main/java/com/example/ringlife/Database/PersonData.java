@@ -12,7 +12,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 11;
 
     private static final String DATABASE_NAME = "RingLifeDB";
 
@@ -61,7 +61,7 @@ public class PersonData extends SQLiteOpenHelper {
                 + KEY_GRBLOOD + " STRING, "
                 + KEY_PAT + " STRING, "
                 + KEY_ALL + " STRING, "
-                + KEY_EMCON + "STRING, "
+                + KEY_EMCON + " STRING, "
                 + KEY_EMTEL + " STRING, "
                 + KEY_PIN + " STRING)";
         db.execSQL(CREATE_PERSON_TABLE);
@@ -129,7 +129,8 @@ public class PersonData extends SQLiteOpenHelper {
         cursor.moveToFirst();
         person = new PersonInformation(cursor.getString(0), cursor.getString(1), cursor.getString(2),
                 cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
-                cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11));
+                cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10),
+                cursor.getString(11));
         cursor.close();
         db.close();
         return person;
