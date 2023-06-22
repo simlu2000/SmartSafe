@@ -25,17 +25,27 @@ public class SosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sos);
 
-        /*tvNome = findViewById(R.id.tvNome);
+        tvNome = findViewById(R.id.tvNome);
         tvCognome = findViewById(R.id.tvCognome);
         tvDataNascita = findViewById(R.id.tvDataNascita);
         tvPatologie = findViewById(R.id.tvPatologie);
         tvAllergie = findViewById(R.id.tvAllergie);
         tvGruppoSan = findViewById(R.id.tvGruppoSan);
-        tvNumeriEmergenza = findViewById(R.id.tvNumeriEmergenza);*/
+        tvNumeriEmergenza = findViewById(R.id.tvNumeriEmergenza);
 
 
         dbPerson = new PersonData(SosActivity.this);
         PersonInformation user = dbPerson.getPerson();
+
+        tvNome.append(user.getNome());
+        tvCognome.append(user.getCognome());
+        tvDataNascita.append(user.getDataDiNascita());
+        tvPatologie.append(user.getPatologie());
+        tvAllergie.append(user.getAllergie());
+        tvGruppoSan.append(user.getGruppoSanguigno());
+        String numeriEmergenza = createStringSos(user.getContattoEmergenza(), user.getTelefoniEmergenza());
+        tvNumeriEmergenza.append(numeriEmergenza);
+
 
         Intent intentHome = getIntent();
         latitude = intentHome.getStringExtra("latitude");
@@ -54,9 +64,20 @@ public class SosActivity extends AppCompatActivity {
         startActivity(callIntent);
 
     }
+
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    private String createStringSos(String contattoEmergenza, String telefoniEmergenza){
+        String[] contatti = contattoEmergenza.split(",");
+        String[] telefoni = telefoniEmergenza.split(",");
+        String stringSos = "";
+        for(int i = 0; i < contatti.length; i++){
+            stringSos += contatti[i] + ": " + telefoni[i] + "\n";
+        }
+        return stringSos;
     }
 }
