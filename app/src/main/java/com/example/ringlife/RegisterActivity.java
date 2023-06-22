@@ -59,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity {
         bttNuoviElementi = findViewById(R.id.bttNuoviElementi);
         bttConferma = findViewById(R.id.bttConferma);
 
+        dbPerson = new PersonData(RegisterActivity.this);
+
         etDataNascita.addTextChangedListener(new TextWatcher() {
             boolean isFormatting;
             boolean deletingHyphen;
@@ -114,6 +116,11 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                     segmentStart = segmentEnd;
+                }
+
+                // Impedisci l'inserimento di ulteriori caratteri dopo il gruppo "cccc"
+                if (formattedText.length() > 10) {
+                    formattedText.setLength(10);
                 }
 
                 etDataNascita.removeTextChangedListener(this);
@@ -201,15 +208,15 @@ public class RegisterActivity extends AppCompatActivity {
                 String telefono = etTelefono.getText().toString().trim();
                 String patologie = etPatologie.getText().toString();
                 String allergie = etAllergie.getText().toString();
-                String contattoEm = getContattoEm();
-                String telefonoEm = getTelefonoEm();
+                String contattoEm = getContattoEm(lytContatti);
+                String telefonoEm = getTelefonoEm(lytContatti);
                 String pin = etPin.getText().toString().trim();
                 String sesso = spSesso.getSelectedItem().toString();
                 String gruppoSanguigno = spGruppoSanguigno.getSelectedItem().toString();
 
-                Toast.makeText(RegisterActivity.this, "Contatto: " + contattoEm + " Telefono: " + telefonoEm, Toast.LENGTH_LONG).show();
+                //Toast.makeText(RegisterActivity.this, "Contatto: " + contattoEm + " Telefono: " + telefonoEm, Toast.LENGTH_LONG).show();
 
-                /*if (nome.isEmpty() || cognome.isEmpty() || codiceFiscale.isEmpty() || dataNascita.isEmpty() ||
+                if (nome.isEmpty() || cognome.isEmpty() || codiceFiscale.isEmpty() || dataNascita.isEmpty() ||
                         telefono.isEmpty() || patologie.isEmpty() || allergie.isEmpty() || contattoEm.isEmpty()
                         || pin.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Tutti i campi devono essere compilati", Toast.LENGTH_LONG).show();
@@ -217,27 +224,26 @@ public class RegisterActivity extends AppCompatActivity {
                     if(pin.length() < 5 && pin.matches("[0-9.]+"))
                         Toast.makeText(RegisterActivity.this, "Inserisci un PIN con almeno 5 cifre e/o deve contenere solo numeri", Toast.LENGTH_LONG).show();
                     else{
-                        dbPerson = new PersonData(RegisterActivity.this);
                         PersonInformation personInformation = new PersonInformation(codiceFiscale, nome, cognome,dataNascita, telefono, sesso, gruppoSanguigno, patologie, allergie, contattoEm, telefonoEm, pin);
                         dbPerson.addPerson(personInformation);
 
                         Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
                         startActivity(intentHome);
                     }
-                }*/
+                }
             }
         });
     }
 
     //Fare da qui
-    private String getContattoEm(){
+    private String getContattoEm(LinearLayout layout){
         String contattoEm = etContattoEm.getText().toString();
         if(maxCont==0)
             return contattoEm;
         else{
             for(int i=1; i<=maxCont; i++){
                 String editTextTag = "etContattoEm" + i;
-                EditText editText = findViewWithTag(editTextTag);
+                EditText editText = layout.findViewWithTag(editTextTag);
 
                 if(editText != null)
                     contattoEm = contattoEm + ", " + editText.getText().toString();
@@ -247,14 +253,14 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private String getTelefonoEm(){
+    private String getTelefonoEm(LinearLayout layout){
         String telefonoEm = etTelefonoEm.getText().toString();
         if(maxCont==0)
             return telefonoEm;
         else{
             for(int i=1; i<=maxCont; i++){
                 String editTextTag = "etTelefonoEm" + i;
-                EditText editText = findViewWithTag(editTextTag);
+                EditText editText = layout.findViewWithTag(editTextTag);
 
                 if(editText != null)
                     telefonoEm = telefonoEm + ", " + editText.getText().toString();
