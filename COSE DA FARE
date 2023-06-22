@@ -1,3 +1,4 @@
 * Dobbiamo fare la parte di visualizzazione del profilo utente + modifica dati + elimina account + sezione dei trattamento dei dati personali + crediti + guida + 
   condividi?
 * Salvare i dati di passaggio da home a SOS
+* Quando parte la SOS l'activity utilizza un numero preimpostato, deve però utilizzare i numeri del db
