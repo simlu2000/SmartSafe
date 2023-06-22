@@ -80,8 +80,10 @@ public class DetectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 timePause();
-                Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY))
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Intent intentHome = getIntent();
+                latitude = intentHome.getStringExtra("latitude");
+                longitude = intentHome.getStringExtra("longitude");
+                Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intentSos.putExtra("latitude", String.valueOf(latitude));
                 intentSos.putExtra("longitude", String.valueOf(longitude));
                 startActivity(intentSos);
