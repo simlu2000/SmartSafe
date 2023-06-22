@@ -97,7 +97,7 @@
                 android:textColor="@color/black"/>
         </LinearLayout>
     </FrameLayout>
-
+    
     <!-- Numeri di telefono -->
     <TextView
         android:layout_width="match_parent"
