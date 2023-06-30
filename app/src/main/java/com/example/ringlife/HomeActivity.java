@@ -130,6 +130,14 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                 callAlarm();
             }
         });
+
+        bttProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentProfile = new Intent(getString(R.string.LAUNCH_PROFILEACTIVITY));
+                startActivity(intentProfile);
+            }
+        });
     }
 
     private void callAlarm(){

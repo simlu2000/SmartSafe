@@ -1,10 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +31,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvHello"
+        android:id="@+id/tvHelloProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ciao,"
@@ -44,43 +42,54 @@
         android:layout_marginLeft="10dp"/>
 
     <TextView
-        android:id="@+id/tvVelocita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stai andando a: "
+        android:text="Gestisci qui il tuo profilo"
         android:fontFamily="@font/nunito_light"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginLeft="10dp"/>
 
-    <TextView
-        android:id="@+id/tvAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Luogo: "
-        android:fontFamily="@font/nunito_light"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"/>
+    <Button
+        android:layout_width="310dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="50dp"
+        android:backgroundTint="#00bfff"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Modifica dati anagrafici"
+        android:textSize="20dp"/>
 
-    <TextView
-        android:id="@+id/tvCoordinate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Coordinate: "
-        android:fontFamily="@font/nunito_light"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"/>
+    <Button
+        android:layout_width="310dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="50dp"
+        android:backgroundTint="#00bfff"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Modifica dati sanitari"
+        android:textSize="20dp"/>
+
+    <Button
+        android:layout_width="310dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="50dp"
+        android:backgroundTint="#00bfff"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Modifica password"
+        android:textSize="20dp"/>
+
+
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
