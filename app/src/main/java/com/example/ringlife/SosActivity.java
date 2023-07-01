@@ -16,7 +16,6 @@ public class SosActivity extends AppCompatActivity {
 
     private TextView tvNome, tvCognome, tvDataNascita, tvPatologie, tvAllergie, tvGruppoSan, tvNumeriEmergenza;
     private String numero = "3518844529", messaggio, coordinate;
-    private String latitude, longitude;
     private PersonData dbPerson;
 
     @Override
@@ -47,14 +46,10 @@ public class SosActivity extends AppCompatActivity {
         tvNumeriEmergenza.append(numeriEmergenza);
 
 
-        Intent intentHome = getIntent();
-        latitude = intentHome.getStringExtra("latitude");
-        longitude = intentHome.getStringExtra("longitude");
-
         //Get the SmsManager instance and call the sendTextMessage method to send message
         SmsManager sms=SmsManager.getDefault();
         messaggio = "Messaggio generato da SmartSafe: ho bisogno di aiuto, sono qui: ";
-        coordinate = "https://www.google.com/maps/search/?api=1&query=" + latitude + "," + longitude;
+        coordinate = "https://www.google.com/maps/search/?api=1&query=" + ((LocationData) getApplication()).getLatitude() + "," + ((LocationData) getApplication()).getLongitude();
 
         sms.sendTextMessage(numero, null, messaggio, null,null);
         sms.sendTextMessage(numero, null, coordinate, null,null);

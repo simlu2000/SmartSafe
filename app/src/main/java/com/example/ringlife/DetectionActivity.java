@@ -29,7 +29,6 @@ public class DetectionActivity extends AppCompatActivity {
     private int timeProgress = 0;
     private long pauseOffSet = 0;
     private boolean isStart = true;
-    private String latitude, longitude;
     private PersonData dbPerson;
 
     private ImageButton yesBtn, noBtn;
@@ -80,12 +79,7 @@ public class DetectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 timePause();
-                Intent intentHome = getIntent();
-                latitude = intentHome.getStringExtra("latitude");
-                longitude = intentHome.getStringExtra("longitude");
                 Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intentSos.putExtra("latitude", String.valueOf(latitude));
-                intentSos.putExtra("longitude", String.valueOf(longitude));
                 startActivity(intentSos);
             }
         });
@@ -174,12 +168,7 @@ public class DetectionActivity extends AppCompatActivity {
             public void onFinish() {
                 // CHIAMA SOS QUIII
                 Toast.makeText(DetectionActivity.this, "Avvio SOS in corso...", Toast.LENGTH_SHORT).show();
-                Intent intentHome = getIntent();
-                latitude = intentHome.getStringExtra("latitude");
-                longitude = intentHome.getStringExtra("longitude");
                 Intent intentSos = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
-                intentSos.putExtra("latitude", String.valueOf(latitude));
-                intentSos.putExtra("longitude", String.valueOf(longitude));
                 startActivity(intentSos);
             }
         }.start();

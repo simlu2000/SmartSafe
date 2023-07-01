@@ -51,7 +51,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private ImageButton bttSos;
     private GifImageView gifAmb;
     private String currentTextV, currentTextS, currentTextC, newTextV, newTextS, newTextC;
-    private double latitude, longitude, latitudeSos, longitudeSos;
     private PersonData dbPerson;
     private SensorManager sensorManager;
     private Sensor accelerometer;
@@ -87,6 +86,15 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         PersonInformation user = dbPerson.getPerson();
 
         tvHello.append(" " + user.getNome());
+
+        newTextV = currentTextV + String.format(Locale.getDefault(), "%.2f km/h", ((LocationData) getApplication()).getVelocita());
+        tvVelocita.setText(newTextV);
+        newTextC = currentTextC + "\nLatitudine: " + ((LocationData) getApplication()).getLatitude() + "\nLongitudine: " + ((LocationData) getApplication()).getLongitude();
+        tvCoordinate.setText(newTextC);
+        if(!((LocationData) getApplication()).getAddress().isEmpty()) {
+            newTextS = currentTextS + ((LocationData) getApplication()).getAddress();
+            tvAddress.setText(newTextS);
+        }
 
 
         List<String> missingPermissions = new ArrayList<>();
@@ -134,8 +142,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
     private void callAlarm(){
         Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
-        intentDetect.putExtra("latitude", String.valueOf(latitudeSos));
-        intentDetect.putExtra("longitude", String.valueOf(longitudeSos));
         startActivity(intentDetect);
     }
     private void startRecording() {
@@ -226,11 +232,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         stopRecording();
     }
 
-    private void changeData(double latitude, double longitude){
-        latitudeSos = latitude;
-        longitudeSos = longitude;
-    }
-
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -270,23 +271,26 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private class MyLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            ((LocationData) getApplication()).setLatitude(location.getLatitude());
+            ((LocationData) getApplication()).setLongitude(location.getLongitude());
+            double latitude = ((LocationData) getApplication()).getLatitude();
+            double longitude = ((LocationData) getApplication()).getLongitude();
             LatLng latLng = new LatLng(latitude, longitude);
             new GetAddressTask().execute(latLng);
             // Ottieni la velocità di movimento in metri al secondo
             float speed = location.getSpeed();
 
-            // Calcola la velocità in km/h
-            float speedKmh = speed * 3.6f;
+            // Salvo il calcolo della velocità in km/h in una Var globale
+            ((LocationData) getApplication()).setVelocita((speed * 3.6f));
+
+            // Ottenere il valore della velocità globale
+            float speedKmh = ((LocationData) getApplication()).getVelocita();
 
             // Visualizza la velocità nella TextView
             newTextV = currentTextV + String.format(Locale.getDefault(), "%.2f km/h", speedKmh);
             tvVelocita.setText(newTextV);
             newTextC = currentTextC + "\nLatitudine: " + latitude + "\nLongitudine: " + longitude;
-            changeData(latitude, longitude);
             tvCoordinate.setText(newTextC);
-
         }
 
         private class GetAddressTask extends AsyncTask<LatLng, Void, String> {
@@ -308,7 +312,11 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                     e.printStackTrace();
                 }
 
-                return address;
+                // Salvo l'indirizzo in una Var globale
+                ((LocationData) getApplication()).setAddress(address);
+
+                // Ottenere il valore dell'indirizzo globale
+                return ((LocationData) getApplication()).getAddress();
             }
 
             @Override
