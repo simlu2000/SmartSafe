@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
@@ -96,7 +94,7 @@ public class PersonData extends SQLiteOpenHelper {
         db.close();
     }
 
-    //contiamo il numero di persone
+    // verifichiamo l'esistenza di una persona
     public boolean ifExistPerson(){
         String countQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();

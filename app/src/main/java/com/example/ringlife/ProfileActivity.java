@@ -1,10 +1,11 @@
 package com.example.ringlife;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -40,8 +41,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void callAlarm() {
         Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
-        intentDetect.putExtra("latitude", String.valueOf(latitudeSos));
-        intentDetect.putExtra("longitude", String.valueOf(longitudeSos));
         startActivity(intentDetect);
     }
 }

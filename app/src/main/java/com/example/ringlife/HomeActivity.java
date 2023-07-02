@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private MediaRecorder mediaRecorder;
     private boolean isRecording = false;
     private TextView tvHello, tvVelocita, tvAddress, tvCoordinate;
-    private ImageButton bttSos;
+    private ImageButton bttSos, bttProfile;//, bttHome;
     private GifImageView gifAmb;
     private String currentTextV, currentTextS, currentTextC, newTextV, newTextS, newTextC;
     private PersonData dbPerson;
@@ -77,7 +77,9 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         tvAddress = findViewById(R.id.tvAddress);
         tvCoordinate = findViewById(R.id.tvCoordinate);
         tvHello = findViewById(R.id.tvHello);
+        //bttHome = findViewById(R.id.bttHome);
         bttSos = findViewById(R.id.bttSos);
+        bttProfile = findViewById(R.id.bttProfile);
         currentTextV = tvVelocita.getText().toString();
         currentTextS = tvAddress.getText().toString();
         currentTextC = tvCoordinate.getText().toString();
