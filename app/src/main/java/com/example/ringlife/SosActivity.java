@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
@@ -60,20 +59,20 @@ public class SosActivity extends AppCompatActivity {
         coordinate = "https://www.google.com/maps/search/?api=1&query=" + ((LocationData) getApplication()).getLatitude() + "," + ((LocationData) getApplication()).getLongitude();
         messaggio = "É UN TEST\n\n\nMessaggio generato da SmartSafe: ho bisogno di aiuto, sono qui: \n" + coordinate;
 
-        for(int i=0; i<numeriEmergenza.length; i++) {
+        /*for(int i=0; i<numeriEmergenza.length; i++) {
             sms.sendTextMessage(numeriEmergenza[i], null, messaggio, null, null);
-        }
+        }*/
 
-        // if we have emergency numbers, start a call to the first number
-        if(numeriEmergenza.length > 0) {
+        // se ha dei numeri di emergeza, chiama il primo numero
+        /*if(numeriEmergenza.length > 0) {
             startCallToNumber(numeriEmergenza[currentEmergencyNumberIndex]);
-        }
+        }*/
 
     }
 
     private void startCallToNumber(String number) {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            Log.e("DEBUGGGGGGGG", "avvio chiamata numero: "+ number + " [" + currentEmergencyNumberIndex + "]");
+            Log.d("DEBUGGGGGGGG", "avvio chiamata numero: "+ number + " [" + currentEmergencyNumberIndex + "]");
             currentEmergencyNumberIndex++;
             Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + number));
@@ -97,10 +96,10 @@ public class SosActivity extends AppCompatActivity {
         return stringSos;
     }
 
-    private BroadcastReceiver callEndedReceiver = new BroadcastReceiver() {
+    public BroadcastReceiver callEndedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e("DEBUGGGGGGGG", "RICEVUTO CALL_ENDED: "+ currentEmergencyNumberIndex);
+            Log.d("DEBUGGGGGGGG", "RICEVUTO CALL_ENDED: "+ currentEmergencyNumberIndex + "\n" + intent.getAction());
             dbPerson = new PersonData(SosActivity.this);
             PersonInformation user = dbPerson.getPerson();
             String[] numeriEmergenza = user.getTelefoniEmergenza().split(",");
@@ -115,12 +114,13 @@ public class SosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(callEndedReceiver, new IntentFilter("com.example.ringlife.CALL_ENDED"));
+        Log.d("DEBUGGGGGGGG", "INVIO CALL_ENDED: "+ this.getApplicationContext().registerReceiver(callEndedReceiver, new IntentFilter("com.example.ringlife.CALL_ENDED")));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(callEndedReceiver);
+        this.getApplicationContext().unregisterReceiver(callEndedReceiver);
+        Log.d("DEBUGGGGGGGG", "PAUSA CALL_ENDED: "+ currentEmergencyNumberIndex);
     }
 }

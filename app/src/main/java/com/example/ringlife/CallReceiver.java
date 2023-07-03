@@ -7,8 +7,6 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 public class CallReceiver extends BroadcastReceiver {
 
     @Override
@@ -32,25 +30,27 @@ public class CallReceiver extends BroadcastReceiver {
         public void onCallStateChanged(int state, String incomingNumber) {
             if (TelephonyManager.CALL_STATE_RINGING == state) {
                 // telefono in suoneria (chiamata in arrivo)
-                Log.e("DEBUGGGGGGGG", "Chiamata in arrivo");
+                Log.d("DEBUGGGGGGGG", "Chiamata in arrivo");
             }
-
-            if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
+            else if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
                 // telefono in chiamata (chiamata in partenza o in arrivo)
                 isPhoneCalling = true;
-                Log.e("DEBUGGGGGGGG", "In chiamata");
+                Log.d("DEBUGGGGGGGG", "In chiamata");
             }
-
-            if (TelephonyManager.CALL_STATE_IDLE == state) {
+            else if (TelephonyManager.CALL_STATE_IDLE == state) {
                 // In idle (nessuna chiamata in arrivo o in partenza)
                 if (isPhoneCalling) {
                     isPhoneCalling = false;
 
                     // Invia un broadcast
-                    Log.e("DEBUGGGGGGGG", "INVIO ENDED");
                     Intent intent = new Intent("com.example.ringlife.CALL_ENDED");
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                    intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                    context.getApplicationContext().sendBroadcast(intent);
+                    Log.d("DEBUGGGGGGGG", "INVIO ENDED");
                 }
+            }
+            else{
+                Log.d("DEBUGGGGGGGG", "ERRORE STRANO");
             }
         }
     }
