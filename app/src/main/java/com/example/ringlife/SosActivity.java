@@ -54,19 +54,19 @@ public class SosActivity extends AppCompatActivity {
         tvNumeriEmergenza.append(contattiEmergenza);
 
 
-        //Get the SmsManager instance and call the sendTextMessage method to send message
+        // Dichiara l'instanza SmsManager e avvia il metodo sendTextMessage per inviare messaggi
         SmsManager sms = SmsManager.getDefault();
         coordinate = "https://www.google.com/maps/search/?api=1&query=" + ((LocationData) getApplication()).getLatitude() + "," + ((LocationData) getApplication()).getLongitude();
         messaggio = "É UN TEST\n\n\nMessaggio generato da SmartSafe: ho bisogno di aiuto, sono qui: \n" + coordinate;
 
-        /*for(int i=0; i<numeriEmergenza.length; i++) {
+        for(int i=0; i<numeriEmergenza.length; i++) {
             sms.sendTextMessage(numeriEmergenza[i], null, messaggio, null, null);
-        }*/
+        }
 
         // se ha dei numeri di emergeza, chiama il primo numero
-        /*if(numeriEmergenza.length > 0) {
+        if(numeriEmergenza.length > 0) {
             startCallToNumber(numeriEmergenza[currentEmergencyNumberIndex]);
-        }*/
+        }
 
     }
 
@@ -91,6 +91,7 @@ public class SosActivity extends AppCompatActivity {
         String[] telefoni = telefoniEmergenza.split(",");
         String stringSos = "";
         for(int i = 0; i < contatti.length; i++){
+            if(i==0) stringSos += " ";
             stringSos += contatti[i] + ": " + telefoni[i] + "\n";
         }
         return stringSos;
@@ -114,7 +115,8 @@ public class SosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("DEBUGGGGGGGG", "INVIO CALL_ENDED: "+ this.getApplicationContext().registerReceiver(callEndedReceiver, new IntentFilter("com.example.ringlife.CALL_ENDED")));
+        Intent itt = this.getApplicationContext().registerReceiver(callEndedReceiver, new IntentFilter("com.example.ringlife.CALL_ENDED"));
+        Log.d("DEBUGGGGGGGG", "INVIO CALL_ENDED: " + itt);
     }
 
     @Override
