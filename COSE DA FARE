@@ -1,4 +1,4 @@
 * Dobbiamo fare la parte di visualizzazione del profilo utente + modifica dati + elimina account + sezione dei trattamento dei dati personali + crediti + (guida + 
   condividi, opzionali)
-* Quando parte la SOS l'activity utilizza un numero preimpostato, deve però utilizzare i numeri del db
+* Quando parte la SOS l'activity prende i dati dal DB ma non chiama tutte le persone
 * Schermata arancione di emergenza telefono non bloccare (inserire un modo che rispistini la bloccabilità del telefono) + alta luminosità + modalità risparmio energetico 
