@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,6 +73,8 @@ public class SosActivity extends AppCompatActivity {
 
     private void startCallToNumber(String number) {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            Log.e("DEBUGGGGGGGG", "avvio chiamata numero: "+ number + " [" + currentEmergencyNumberIndex + "]");
+            currentEmergencyNumberIndex++;
             Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + number));
             startActivity(callIntent);
@@ -97,13 +100,13 @@ public class SosActivity extends AppCompatActivity {
     private BroadcastReceiver callEndedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.e("DEBUGGGGGGGG", "RICEVUTO CALL_ENDED: "+ currentEmergencyNumberIndex);
             dbPerson = new PersonData(SosActivity.this);
             PersonInformation user = dbPerson.getPerson();
             String[] numeriEmergenza = user.getTelefoniEmergenza().split(",");
 
             // check if there are more numbers to call
-            if (currentEmergencyNumberIndex + 1 < numeriEmergenza.length) {
-                currentEmergencyNumberIndex++;
+            if (currentEmergencyNumberIndex < numeriEmergenza.length) {
                 startCallToNumber(numeriEmergenza[currentEmergencyNumberIndex]);
             }
         }
@@ -112,7 +115,7 @@ public class SosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(callEndedReceiver, new IntentFilter("com.example.app.CALL_ENDED"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(callEndedReceiver, new IntentFilter("com.example.ringlife.CALL_ENDED"));
     }
 
     @Override
