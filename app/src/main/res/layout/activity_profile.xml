@@ -55,7 +55,7 @@
         android:id="@+id/bttChangeAna"
         android:layout_width="310dp"
         android:layout_height="75dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="50dp"
         android:backgroundTint="#00bfff"
         android:fontFamily="@font/nunito_bold"
@@ -81,13 +81,25 @@
         android:layout_marginLeft="50dp"
         android:backgroundTint="#00bfff"
         android:fontFamily="@font/nunito_bold"
-        android:text="Modifica password"
+        android:text="Modifica PIN"
         android:textSize="20dp"/>
 
+    <Button
+        android:id="@+id/bttDelete"
+        android:layout_width="310dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="50dp"
+        android:backgroundTint="#b9232b"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Elimina Account"
+        android:textSize="20dp"
+        android:textColor="@color/white"/>
 
 
 
-    <View
+
+   <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

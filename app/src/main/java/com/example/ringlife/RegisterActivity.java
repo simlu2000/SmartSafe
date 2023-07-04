@@ -12,18 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -175,6 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextTelefonoEm.setId(View.generateViewId());
         editTextTelefonoEm.setTag("etTelefonoEm" + n);
         editTextTelefonoEm.setHint("Telefono");
+        editTextTelefonoEm.setInputType(InputType.TYPE_CLASS_PHONE);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 dpToPx(120), // Width of 160dp
                 LinearLayout.LayoutParams.WRAP_CONTENT);
