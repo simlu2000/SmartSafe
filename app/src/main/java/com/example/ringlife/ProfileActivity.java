@@ -53,6 +53,10 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Log.d("DialogInterface", "OK");
+                    /*dbPerson.deletePerson();*/
+
+                    Intent intentMain = new Intent(getString(R.string.LAUNCH_MAINACTIVITY));
+                    startActivity(intentMain);
                 }
             });
 

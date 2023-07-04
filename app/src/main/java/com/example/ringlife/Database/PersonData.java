@@ -73,6 +73,8 @@ public class PersonData extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
+
     //aggiungiamo un account
     public void addPerson(PersonInformation person){
         SQLiteDatabase db = this.getWritableDatabase();
