@@ -35,12 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         tvHelloProfile.append(" " + user.getNome());
 
-        bttSos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callAlarm();
-            }
-        });
+        
 
         bttHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,10 +44,13 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intentHome);
             }
         });
-    }
+        bttSos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
+                startActivity(intentDetect);
+            }
+        });
 
-    private void callAlarm() {
-        Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
-        startActivity(intentDetect);
     }
 }
