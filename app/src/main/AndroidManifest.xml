@@ -28,7 +28,7 @@
         android:icon="@drawable/icona"
         android:label="SmartSafe"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.RingLife">
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -80,7 +80,7 @@
         </activity>
 
         <receiver android:name=".CallReceiver"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
