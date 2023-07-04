@@ -3,7 +3,7 @@
     <style name="Theme.RingLife" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorePrimary</item>
-        <item name="colorPrimaryVariant">@color/colorePrimary</item>
+        <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/white</item>
@@ -12,6 +12,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
-        <item name="colorSurface">?attr/colorPrimary</item>
+        <item name="colorSurface">?attr/colorPrimaryVariant</item>
     </style>
 </resources>

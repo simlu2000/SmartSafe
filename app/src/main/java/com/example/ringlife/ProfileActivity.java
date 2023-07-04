@@ -42,17 +42,17 @@ public class ProfileActivity extends AppCompatActivity {
 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ProfileActivity.this)
             .setTitle("Elimina account")
-            .setMessage("Premendo 'OK' perderai tutti i dati del tuo account per sempre\nNe sei sicuro?")
+            .setMessage("Premendo 'OK' perderai tutti i dati del tuo account per sempre\n\n")
             .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Log.d("DialogInterface", "Annulla");
                 }
             })
-            .setPositiveButton("Confermo", new DialogInterface.OnClickListener() {
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.d("DialogInterface", "Confermo");
+                    Log.d("DialogInterface", "OK");
                 }
             });
 
