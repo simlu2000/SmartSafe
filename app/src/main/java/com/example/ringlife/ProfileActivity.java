@@ -40,7 +40,36 @@ public class ProfileActivity extends AppCompatActivity {
         // Inserisco nome account in alto
         tvHelloProfile.append(" " + user.getNome());
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ProfileActivity.this)
+        MaterialAlertDialogBuilder dialogPin = new MaterialAlertDialogBuilder(ProfileActivity.this)
+                .setTitle("Cambia PIN")
+                .setMessage("Premendo 'OK' cambierai il tuo pin in 00000\n\n")
+                .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("DialogInterface", "Annulla");
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("DialogInterface", "OK");
+                        String query = "SET Pin = '00000' WHERE CodiceFiscale = '" + user.getCodiceFiscale() + "'";
+                        dbPerson.updatePerson(query);
+
+
+                        Intent intentMain = new Intent("com.example.ringlife.MainActivity");
+                        startActivity(intentMain);
+                    }
+                });
+
+        bttChangePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogPin.show();
+            }
+        });
+
+        MaterialAlertDialogBuilder dialogDelete = new MaterialAlertDialogBuilder(ProfileActivity.this)
             .setTitle("Elimina account")
             .setMessage("Premendo 'OK' perderai tutti i dati del tuo account per sempre\n\n")
             .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -64,7 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
         bttDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               builder.show();
+                dialogDelete.show();
             }
         });
 

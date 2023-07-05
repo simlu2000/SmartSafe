@@ -10,7 +10,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
 
     private static final String DATABASE_NAME = "RingLifeDB";
 
@@ -96,6 +96,14 @@ public class PersonData extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Modifichiamo un account
+    public void updatePerson(String queryChange){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + TABLE_NAME + " " + queryChange); //UPDATE employees SET lastname = 'Smith' WHERE employeeid = 3;
+
+        db.close();
+    }
+
     // verifichiamo l'esistenza di una persona
     public boolean ifExistPerson(){
         String countQuery = "SELECT * FROM " + TABLE_NAME;
@@ -106,7 +114,6 @@ public class PersonData extends SQLiteOpenHelper {
             return true;
         else
             return false;
-
     }
 
     public String getPinDB(){
