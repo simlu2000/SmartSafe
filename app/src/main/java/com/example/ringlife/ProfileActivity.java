@@ -82,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Log.d("DialogInterface", "OK");
-                    /*dbPerson.deletePerson();*/
+                    dbPerson.deletePerson(user.getCodiceFiscale());
 
 
                     Intent intentMain = new Intent("com.example.ringlife.MainActivity");

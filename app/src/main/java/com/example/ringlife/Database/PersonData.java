@@ -10,7 +10,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
 
     private static final String DATABASE_NAME = "RingLifeDB";
 
@@ -141,5 +141,12 @@ public class PersonData extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return person;
+    }
+
+    public void deletePerson(String codiceF){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE CodiceFiscale = '" + codiceF + "'"); // DELETE FROM TABLE_NAME WHERE CodiceFiscale = 'code'
+
+        db.close();
     }
 }
