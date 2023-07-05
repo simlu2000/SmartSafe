@@ -1,3 +1,2 @@
 * Dobbiamo fare la parte di visualizzazione del profilo utente + modifica dati + elimina account
 * Quando parte la SOS l'activity prende i dati dal DB ma non chiama tutte le persone
-* Schermata arancione di emergenza telefono non bloccare (inserire un modo che rispistini la bloccabilità del telefono) + alta luminosità + modalità risparmio energetico 
