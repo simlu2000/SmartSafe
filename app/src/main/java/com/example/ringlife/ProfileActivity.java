@@ -90,10 +90,10 @@ public class ProfileActivity extends AppCompatActivity {
                                 String oldPin = oldPinEditText.getText().toString();
                                 String newPin = newPinEditText.getText().toString();
 
-                                if (checkPinEmpty(oldPin) || checkPinEmpty(newPin)) {
+                                if (oldPin.matches("") || newPin.matches("")) {
                                     Toast.makeText(ProfileActivity.this, "Campo pin vuoto", Toast.LENGTH_LONG).show();
                                 }else {
-                                    if (!checkValid(oldPin) && !checkValid(newPin)) {
+                                    if (!oldPin.matches("[0-9.]+") && !newPin.matches("[0-9.]+")) {
                                         //clearEt();
                                         Toast.makeText(ProfileActivity.this, "Campo pin non valido", Toast.LENGTH_LONG).show();
                                     } else {
@@ -165,19 +165,5 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public boolean checkPinEmpty(String insPin){
-        if(insPin.matches(""))
-            return true;
-        else
-            return false;
-    }
-
-    public boolean checkValid(String insPin){
-        if(insPin.matches("[0-9.]+"))
-            return true;
-        else
-            return false;
     }
 }

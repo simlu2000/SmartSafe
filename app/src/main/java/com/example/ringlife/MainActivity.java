@@ -48,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                     if(actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL){
                         String getPin = etPin.getText().toString();
-                        if (checkPinEmpty(getPin)) {
+                        if (getPin.matches("")) {
                             Toast.makeText(MainActivity.this, "Campo pin vuoto", Toast.LENGTH_LONG).show();
                         }else {
-                            if (!checkValid(getPin)) {
-                                clearEt();
+                            if (!getPin.matches("[0-9.]+")) {
+                                etPin.setText("");
                                 Toast.makeText(MainActivity.this, "Campo pin non valido", Toast.LENGTH_LONG).show();
                             } else {
                                 if (user.getPIN().equals(getPin)){
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(intentHome);
                                 }
                                 else {
-                                    clearEt();
+                                    etPin.setText("");
                                     Toast.makeText(MainActivity.this, "Pin errato", Toast.LENGTH_LONG).show();
                                 }
                             }
@@ -81,24 +81,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intentReg = new Intent(getString(R.string.LAUNCH_REGISTERACTIVITY));
             startActivity(intentReg);
         });
-    }
-
-    public boolean checkPinEmpty(String insPin){
-        if(insPin.matches(""))
-            return true;
-        else
-            return false;
-    }
-
-    public boolean checkValid(String insPin){
-        if(insPin.matches("[0-9.]+"))
-            return true;
-        else
-            return false;
-    }
-
-    public void clearEt(){
-        etPin.setText("");
     }
 
 
