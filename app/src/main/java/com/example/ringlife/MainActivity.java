@@ -1,12 +1,6 @@
 package com.example.ringlife;
 
-import static java.sql.Types.NULL;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
@@ -58,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
                                 clearEt();
                                 Toast.makeText(MainActivity.this, "Campo pin non valido", Toast.LENGTH_LONG).show();
                             } else {
-                                int intGetPin = Integer.parseInt(getPin);
-                                if (checkPin(Integer.parseInt(user.getPIN()), intGetPin)){
+                                if (user.getPIN().equals(getPin)){
                                     //Toast.makeText(MainActivity.this, "Pin corretto", Toast.LENGTH_LONG).show();
                                     Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
                                     startActivity(intentHome);
@@ -85,13 +81,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intentReg = new Intent(getString(R.string.LAUNCH_REGISTERACTIVITY));
             startActivity(intentReg);
         });
-    }
-
-    public boolean checkPin(int dbPin, int insPin){
-        if(dbPin == insPin)
-            return true;
-        else
-            return false;
     }
 
     public boolean checkPinEmpty(String insPin){
