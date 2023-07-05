@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_bold"
-        android:text="RingLife"
+        android:text="SmartLife"
         android:textColor="@color/black"
         android:textSize="65dp"
         android:layout_marginTop="90dp" />
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_bold_italic"
-        android:text="La sicurezza a portata di dito"
+        android:text="La sicurezza a portata di click"
         android:textColor="@color/black"
         android:textSize="20dp"
         />

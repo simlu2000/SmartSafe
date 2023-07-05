@@ -55,7 +55,8 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.d("DialogInterface", "OK");
                     /*dbPerson.deletePerson();*/
 
-                    Intent intentMain = new Intent(getString(R.string.LAUNCH_MAINACTIVITY));
+
+                    Intent intentMain = new Intent("com.example.ringlife.MainActivity");
                     startActivity(intentMain);
                 }
             });
