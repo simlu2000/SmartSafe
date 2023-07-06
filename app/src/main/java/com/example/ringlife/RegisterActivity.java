@@ -222,7 +222,8 @@ public class RegisterActivity extends AppCompatActivity {
                         PersonInformation personInformation = new PersonInformation(codiceFiscale, nome, cognome,dataNascita, telefono, sesso, gruppoSanguigno, patologie, allergie, contattoEm, telefonoEm, pin);
                         dbPerson.addPerson(personInformation);
 
-                        Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
+                        Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY))
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intentHome);
                     }
                 }
