@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -43,7 +44,9 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private LocationManager locationManager;
     private LocationListener locationListener;
 
-    private static final int SOUND_THRESHOLD = 32500; // Soglia di volume per rilevare un suono forte (puoi regolarla in base alle tue esigenze)
+    private boolean isActivityStarted = false;
+
+    private static final int SOUND_THRESHOLD = 30500; // Soglia di volume per rilevare un suono forte (puoi regolarla in base alle tue esigenze)
     private static final float threshold = 200.0f; // Modifica la soglia a seconda delle tue esigenze
     private MediaRecorder mediaRecorder;
     private boolean isRecording = false;
@@ -116,6 +119,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             // Richiedi i permessi mancanti all'utente
             ActivityCompat.requestPermissions(this, permissionsToRequest, 1);
         } else {
+            checkLocationSettings();
             // Hai tutti i permessi necessari
             // Inizializza il servizio di localizzazione
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -137,7 +141,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         bttSos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAlarm();
+                callAlarm("Attivazione SOS Manuale");
             }
         });
 
@@ -150,9 +154,25 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         });
     }
 
-    private void callAlarm(){
-        Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
-        startActivity(intentDetect);
+    private void checkLocationSettings() {
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // Verifica se il GPS è attivo
+        if (!isGpsEnabled) {
+            Toast.makeText(this, "Attiva Geocalizzazione", Toast.LENGTH_SHORT).show();
+            // Il GPS non è attivo, richiedi all'utente di attivarlo
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        }
+    }
+    private void callAlarm(String str){
+        if(!isActivityStarted){
+            Toast.makeText(HomeActivity.this, str, Toast.LENGTH_SHORT).show();
+            Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
+            startActivity(intentDetect);
+            isActivityStarted = true;
+        }
     }
     private void startRecording() {
         mediaRecorder = new MediaRecorder();
@@ -184,8 +204,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(HomeActivity.this, "Rumore alto rilevato!", Toast.LENGTH_SHORT).show();
-                                callAlarm();
+                                callAlarm("Rumore alto rilevato!");
                             }
                         });
                     }
@@ -265,8 +284,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                 accidentDetected = true;
                 // Puoi eseguire qui le azioni appropriate, come inviare una notifica di emergenza o contattare i servizi di emergenza
                 // Passare alla schermata di rischiesta "Stai bene?"
-                Toast.makeText(this, "Possibile incidente rilevato!", Toast.LENGTH_SHORT).show();
-                callAlarm();
+                callAlarm("Possibile incidente rilevato!");
             }
 
             previousSpeed = speed;

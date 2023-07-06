@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final boolean[] isActivityStarted = {false};
+
         bttInUp = findViewById(R.id.bttInUp);
         etPin = findViewById(R.id.etPin);
         etPin.setVisibility(View.INVISIBLE);
@@ -58,9 +60,13 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "Campo pin non valido", Toast.LENGTH_LONG).show();
                             } else {
                                 if (user.getPIN().equals(getPin)){
-                                    //Toast.makeText(MainActivity.this, "Pin corretto", Toast.LENGTH_LONG).show();
-                                    Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
-                                    startActivity(intentHome);
+                                    if(!isActivityStarted[0]){
+                                        //Toast.makeText(MainActivity.this, "Pin corretto", Toast.LENGTH_LONG).show();
+                                        Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
+                                        startActivity(intentHome);
+                                        isActivityStarted[0] = true;
+                                        finish();
+                                    }
                                 }
                                 else {
                                     etPin.setText("");
@@ -88,10 +94,12 @@ public class MainActivity extends AppCompatActivity {
                 public void afterTextChanged(Editable s) {
                     String password = s.toString();
                     // Effettua il controllo sulla password
-                    if (password.equals(user.getPIN())) {
+                    if (password.equals(user.getPIN()) && !isActivityStarted[0]) {
                         // La password è corretta, avvia un'altra activity
                         Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
                         startActivity(intentHome);
+                        isActivityStarted[0] = true;
+                        finish();
                     }
                 }
             });
