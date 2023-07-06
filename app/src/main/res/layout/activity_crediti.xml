@@ -15,14 +15,14 @@
 Sviluppatori:\n
 Alessandro Simoni\n
 Eleonora Fabbri\n
-Alessio Palladino\n
+Alessio Paladino\n
 Simone Lutero\n\n
 Docente di riferimento:\n Andrea Sciarrone\n\n
-Versione: Prima versione\n\n
+Versione: v1.26.91\n\n
 Anno di pubblicazione: 2023\n\n
 Grazie a tutto il team di sviluppo e al professore Andrea Sciarrone per il loro contributo nella realizzazione di SmartSafe.\n\n\n\n\n\n\n\n
 © 2023 SmartSafe. Tutti i diritti riservati.\n\n
-Data: 05/07/2023"
+Data: 07/07/2023"
             android:fontFamily="@font/nunito_light"
             android:textColor="@color/black"
             android:textSize="18dp"/>
