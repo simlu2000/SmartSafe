@@ -28,12 +28,13 @@
         android:icon="@drawable/icona"
         android:label="SmartSafe"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.RingLife">
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.example.ringlife.MainActivity.java"></action>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -80,7 +81,7 @@
         </activity>
 
         <receiver android:name=".CallReceiver"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>

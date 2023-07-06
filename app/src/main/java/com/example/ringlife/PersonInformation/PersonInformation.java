@@ -1,6 +1,5 @@
 package com.example.ringlife.PersonInformation;
 
-import android.content.Intent;
 
 public class PersonInformation {
     private String codiceFiscale;
