@@ -10,7 +10,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 15;
 
     private static final String DATABASE_NAME = "RingLifeDB";
 
@@ -50,18 +50,18 @@ public class PersonData extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PERSON_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + KEY_CF + " STRING PRIMARY KEY,"
-                + KEY_NAME + " STRING, "
-                + KEY_SURNAME + " STRING, "
-                + KEY_DATEOFBIRTH + " STRING, "
-                + KEY_TEL + " STRING, "
-                + KEY_SEX + " STRING, "
-                + KEY_GRBLOOD + " STRING, "
-                + KEY_PAT + " STRING, "
-                + KEY_ALL + " STRING, "
-                + KEY_EMCON + " STRING, "
-                + KEY_EMTEL + " STRING, "
-                + KEY_PIN + " STRING)";
+                + KEY_CF + " TEXT PRIMARY KEY,"
+                + KEY_NAME + " TEXT, "
+                + KEY_SURNAME + " TEXT, "
+                + KEY_DATEOFBIRTH + " TEXT, "
+                + KEY_TEL + " TEXT, "
+                + KEY_SEX + " TEXT, "
+                + KEY_GRBLOOD + " TEXT, "
+                + KEY_PAT + " TEXT, "
+                + KEY_ALL + " TEXT, "
+                + KEY_EMCON + " TEXT, "
+                + KEY_EMTEL + " TEXT, "
+                + KEY_PIN + " TEXT)";
         db.execSQL(CREATE_PERSON_TABLE);
     }
 
@@ -97,9 +97,15 @@ public class PersonData extends SQLiteOpenHelper {
     }
 
     //Modifichiamo un account
-    public void updatePerson(String queryChange){
+    public void updatePerson(String newPin, String codiceF){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE " + TABLE_NAME + " " + queryChange); //UPDATE employees SET lastname = 'Smith' WHERE employeeid = 3;
+        ContentValues values = new ContentValues();
+        values.put(KEY_PIN, newPin);
+
+        String selection = KEY_CF + " = ?";
+        String[] selectionArgs = { codiceF };
+
+        db.update(TABLE_NAME, values, selection, selectionArgs);
 
         db.close();
     }

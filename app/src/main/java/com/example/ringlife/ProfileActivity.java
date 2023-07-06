@@ -24,6 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton bttHome, bttSos;
     private Button bttChangeAna, bttChangeMed, bttChangePin, bttDelete;
     private PersonData dbPerson;
+    private PersonInformation user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
         bttDelete = findViewById(R.id.bttDelete);
 
         dbPerson = new PersonData(this);
-        PersonInformation user = dbPerson.getPerson();
+        user = dbPerson.getPerson();
 
         // Inserisco nome account in alto
         tvHelloProfile.append(" " + user.getNome());
@@ -94,23 +95,21 @@ public class ProfileActivity extends AppCompatActivity {
                                     Toast.makeText(ProfileActivity.this, "Campo pin vuoto", Toast.LENGTH_LONG).show();
                                 }else {
                                     if (!oldPin.matches("[0-9.]+") && !newPin.matches("[0-9.]+")) {
-                                        //clearEt();
                                         Toast.makeText(ProfileActivity.this, "Campo pin non valido", Toast.LENGTH_LONG).show();
                                     } else {
-                                        if (user.getPIN().equals(oldPin)){
+                                        if (oldPin.equals(user.getPIN())){
+                                            dbPerson.updatePerson(newPin, user.getCodiceFiscale());
+                                            updateData();
                                             Toast.makeText(ProfileActivity.this, "Pin modificato correttamente", Toast.LENGTH_SHORT).show();
-                                            String query = "SET Pin = '" + newPin + "' WHERE CodiceFiscale = '" + user.getCodiceFiscale() + "'";
-                                            dbPerson.updatePerson(query);
                                         }
                                         else {
-                                            //clearEt();
                                             Toast.makeText(ProfileActivity.this, "PIN di accesso, errato!", Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }
                                 dialog.dismiss();
-                        /*Intent intentHome = new Intent("com.example.ringlife.HomeActivity.java");
-                        startActivity(intentHome);*/
+                                /*Intent intentHome = new Intent("com.example.ringlife.HomeActivity.java");
+                                startActivity(intentHome);*/
                             }
                         });
 
@@ -165,5 +164,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void updateData(){
+        user = dbPerson.getPerson();
     }
 }
