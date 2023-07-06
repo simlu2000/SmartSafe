@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +31,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         bttHome = findViewById(R.id.bttHome);
         bttSos = findViewById(R.id.bttSos);
-        tvHelloProfile = findViewById(R.id.tvHelloProfile);
         bttChangeAna = findViewById(R.id.bttChangeAna);
         bttChangeMed = findViewById(R.id.bttChangeMed);
         bttChangePin = findViewById(R.id.bttChangePin);
