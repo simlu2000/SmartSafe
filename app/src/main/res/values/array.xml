@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="Sesso">
-        <item> Donna</item>
         <item> Uomo</item>
+        <item> Donna</item>
     </string-array>
 
     <string-array name="GruppoSanguigno">
