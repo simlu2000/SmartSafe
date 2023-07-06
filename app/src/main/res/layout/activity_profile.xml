@@ -35,7 +35,7 @@
         android:id="@+id/tvHelloProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ciao,"
+        android:text="Area personale"
         android:fontFamily="@font/nunito_bold_italic"
         android:textColor="@color/black"
         android:textSize="30dp"
@@ -49,15 +49,19 @@
         android:fontFamily="@font/nunito_light"
         android:textColor="@color/black"
         android:textSize="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"/>
+ 	
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
 
     <Button
         android:id="@+id/bttChangeAna"
         android:layout_width="310dp"
         android:layout_height="75dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginTop="60dp"
         android:backgroundTint="#00bfff"
         android:fontFamily="@font/nunito_bold"
         android:text="Modifica dati anagrafici"
@@ -68,7 +72,6 @@
         android:layout_width="310dp"
         android:layout_height="75dp"
         android:layout_marginTop="40dp"
-        android:layout_marginLeft="50dp"
         android:backgroundTint="#00bfff"
         android:fontFamily="@font/nunito_bold"
         android:text="Modifica dati sanitari"
@@ -79,7 +82,6 @@
         android:layout_width="310dp"
         android:layout_height="75dp"
         android:layout_marginTop="40dp"
-        android:layout_marginLeft="50dp"
         android:backgroundTint="#00bfff"
         android:fontFamily="@font/nunito_bold"
         android:text="Modifica PIN"
@@ -97,7 +99,34 @@
         android:textSize="20dp"
         android:textColor="@color/white"/>
 
+    <ImageButton
+        android:id="@+id/bttManuale"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/manuale"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="53dp"
+        android:layout_marginTop="45dp"/>
 
+    <ImageButton
+        android:id="@+id/bttPrivacy"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="133dp"
+        android:layout_marginTop="-40dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/privacy" />
+
+    <ImageButton
+        android:id="@+id/bttCrediti"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/crediti"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="213dp"
+        android:layout_marginTop="-40dp"/>
+
+    </LinearLayout>
 
 
    <View

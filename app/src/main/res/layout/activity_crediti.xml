@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\nCrediti per l'app SmartSafe:\n\n
+Sviluppatori:\n
+Alessandro Simoni\n
+Eleonora Fabbri\n
+Alessio Palladino\n
+Simone Lutero\n\n
+Docente di riferimento:\n Andrea Sciarrone\n\n
+Versione: Prima versione\n\n
+Anno di pubblicazione: 2023\n\n
+Grazie a tutto il team di sviluppo e al professore Andrea Sciarrone per il loro contributo nella realizzazione di SmartSafe.\n\n\n\n\n\n\n\n
+© 2023 SmartSafe. Tutti i diritti riservati.\n\n
+Data: 05/07/2023"
+            android:fontFamily="@font/nunito_light"
+            android:textColor="@color/black"
+            android:textSize="18dp"/>
+
+    </ScrollView>
+
+
+</LinearLayout>

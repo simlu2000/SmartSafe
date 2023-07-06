@@ -20,8 +20,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ProfileActivity extends AppCompatActivity {
-    private TextView tvHelloProfile;
-    private ImageButton bttHome, bttSos;
+    private ImageButton bttHome, bttSos, bttManuale, bttPrivacy, bttCrediti;
     private Button bttChangeAna, bttChangeMed, bttChangePin, bttDelete;
     private PersonData dbPerson;
     private PersonInformation user;
@@ -38,12 +37,12 @@ public class ProfileActivity extends AppCompatActivity {
         bttChangeMed = findViewById(R.id.bttChangeMed);
         bttChangePin = findViewById(R.id.bttChangePin);
         bttDelete = findViewById(R.id.bttDelete);
+        bttManuale = findViewById(R.id.bttManuale);
+        bttPrivacy = findViewById(R.id.bttPrivacy);
+        bttCrediti = findViewById(R.id.bttCrediti);
 
         dbPerson = new PersonData(this);
         user = dbPerson.getPerson();
-
-        // Inserisco nome account in alto
-        tvHelloProfile.append(" " + user.getNome());
 
         bttChangePin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +55,10 @@ public class ProfileActivity extends AppCompatActivity {
                 // Crea i due EditText che serviranno per l'input
                 EditText oldPinEditText = new EditText(ProfileActivity.this);
                 oldPinEditText.setHint("Inserisci il vecchio PIN");
-                oldPinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD); // Imposta l'input come numerico
+                oldPinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD); // Imposta
+                                                                                                                     // l'input
+                                                                                                                     // come
+                                                                                                                     // numerico
                 LinearLayout.LayoutParams oldPinParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -93,23 +95,27 @@ public class ProfileActivity extends AppCompatActivity {
 
                                 if (oldPin.matches("") || newPin.matches("")) {
                                     Toast.makeText(ProfileActivity.this, "Campo pin vuoto", Toast.LENGTH_LONG).show();
-                                }else {
+                                } else {
                                     if (!oldPin.matches("[0-9.]+") && !newPin.matches("[0-9.]+")) {
-                                        Toast.makeText(ProfileActivity.this, "Campo pin non valido", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ProfileActivity.this, "Campo pin non valido", Toast.LENGTH_LONG)
+                                                .show();
                                     } else {
-                                        if (oldPin.equals(user.getPIN())){
+                                        if (oldPin.equals(user.getPIN())) {
                                             dbPerson.updatePerson(newPin, user.getCodiceFiscale());
                                             updateData();
-                                            Toast.makeText(ProfileActivity.this, "Pin modificato correttamente", Toast.LENGTH_SHORT).show();
-                                        }
-                                        else {
-                                            Toast.makeText(ProfileActivity.this, "PIN di accesso, errato!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ProfileActivity.this, "Pin modificato correttamente",
+                                                    Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(ProfileActivity.this, "PIN di accesso, errato!",
+                                                    Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }
                                 dialog.dismiss();
-                                /*Intent intentHome = new Intent("com.example.ringlife.HomeActivity.java");
-                                startActivity(intentHome);*/
+                                /*
+                                 * Intent intentHome = new Intent("com.example.ringlife.HomeActivity.java");
+                                 * startActivity(intentHome);
+                                 */
                             }
                         });
 
@@ -147,8 +153,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-
         bttHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,9 +168,33 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        bttManuale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentManuale = new Intent(getString(R.string.LAUNCH_MANUALEACTIVITY));
+                startActivity(intentManuale);
+            }
+        });
+
+        bttCrediti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCrediti = new Intent(getString(R.string.LAUNCH_CREDITIACTIVITY));
+                startActivity(intentCrediti);
+            }
+        });
+
+        bttPrivacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPrivacy = new Intent(getString(R.string.LAUNCH_PRIVACYACTIVITY));
+                startActivity(intentPrivacy);
+            }
+        });
+
     }
 
-    public void updateData(){
+    public void updateData() {
         user = dbPerson.getPerson();
     }
 }

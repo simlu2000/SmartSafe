@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_bold"
-        android:text="SmartLife"
+        android:text="SmartSafe"
         android:textColor="@color/black"
         android:textSize="65dp"
         android:layout_marginTop="90dp" />
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_bold_italic"
-        android:text="La sicurezza a portata di click"
+        android:text="La sicurezza a prova d'impatto"
         android:textColor="@color/black"
         android:textSize="20dp"
         />
@@ -53,6 +53,6 @@
         android:fontFamily="@font/nunito_bold"
         android:layout_marginTop="-70dp"
         android:hint="Inserisci il pin"
-        android:inputType="number"/>
+        android:inputType="numberPassword"/>
 
 </LinearLayout>
