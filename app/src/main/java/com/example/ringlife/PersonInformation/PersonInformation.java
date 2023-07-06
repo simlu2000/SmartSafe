@@ -15,6 +15,7 @@ public class PersonInformation {
     private String telefoniEmergenza;
     private String PIN;
 
+    // Costruttore utente
     public PersonInformation(String codiceFiscale, String nome, String cognome, String dataDiNascita,
                              String telefono, String sesso, String gruppoSanguigno, String patologie,
                              String allergie, String contattoEmergenza, String telefoniEmergenza, String PIN){
@@ -32,6 +33,7 @@ public class PersonInformation {
         this.PIN = PIN;
     }
 
+    // Metodi getter e setter
     public String getCodiceFiscale(){ return codiceFiscale;}
     public String getNome(){return nome;}
     public String getCognome(){return cognome;}

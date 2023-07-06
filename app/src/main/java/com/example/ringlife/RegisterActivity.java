@@ -20,8 +20,9 @@ import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class RegisterActivity extends AppCompatActivity {
-
     private final String TAG = "RegisterActivity";
+
+    /* Dichiarazione varibili RegisterActivity Layout */
     private EditText etNome, etCognome, etCodiceFiscale, etDataNascita, etTelefono, etPatologie, etAllergie, etContattoEm, etPin, etTelefonoEm;
     private Spinner spSesso, spGruppoSanguigno;
     private Button bttConferma, bttNuoviElementi;
@@ -141,7 +142,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         insertInDB();
     }
-
+    // Creazione nuovi campi per inserimento di nome e numero
     private void createNewTextViewAndEditText(LinearLayout layout, int n){
         //create names id for edit text and text view
         LinearLayout lytContTel = new LinearLayout(this);
@@ -182,15 +183,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         layout.addView(lytContTel);
     }
-
-    // Utility method to convert dp to pixels
+    // Conversione da dp a px
     private int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
-
-
-
+    // Inserimento su db
     private void insertInDB(){
         Log.i(TAG, "Entro nella funzione");
         bttConferma.setOnClickListener(new View.OnClickListener() {
@@ -231,7 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    //Fare da qui
+    // Acquisizione nome persona per salvataggio su db
     private String getContattoEm(LinearLayout layout){
         String contattoEm = etContattoEm.getText().toString();
         if(maxCont==0)
@@ -249,6 +247,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    // Acquisizione numero persona per salvataggio su db
     private String getTelefonoEm(LinearLayout layout){
         String telefonoEm = etTelefonoEm.getText().toString();
         if(maxCont==0)

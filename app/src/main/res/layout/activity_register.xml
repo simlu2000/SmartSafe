@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:text="Registrati"
                     android:textSize="40dp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorePrimary"
                     android:textStyle="bold"
                     />
             </LinearLayout>
@@ -140,12 +140,6 @@
                         android:layout_height="wrap_content"
                         android:entries="@array/Sesso"
                         android:layout_marginTop="10dp"/>
-                        <!--
-                        <string-array name="Sesso">
-                            <item>Donna/a</item>
-                            <item>Uomo/a</item>
-                        </string-array>
-                        -->
                 </LinearLayout>
 
             </LinearLayout>
@@ -198,16 +192,6 @@
                     -->
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nei seguenti campi, elenca andando a capo"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/holo_red_light"
-                    android:layout_marginTop="15dp"
-                    />
 
                 <EditText
                     android:id="@+id/etPatologie"
@@ -225,6 +209,17 @@
                     android:hint="Allergie"
                     android:layout_marginTop="10dp"
                     android:inputType="textLongMessage"
+                    />
+
+                <TextView
+                    android:id="@+id/tvInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Inserisci in ordine di priorità:"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/holo_red_light"
+                    android:layout_marginTop="15dp"
                     />
 
                 <LinearLayout

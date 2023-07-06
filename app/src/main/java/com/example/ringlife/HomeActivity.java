@@ -32,42 +32,32 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.GeoApiContext;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import pl.droidsonroids.gif.GifImageView;
-
 public class HomeActivity extends AppCompatActivity implements SensorEventListener {
+    /* Dichiarazione varibili HomeActivity Layout */
+    private TextView tvHello, tvVelocita, tvAddress, tvCoordinate;
+    private ImageButton bttSos, bttProfile;
+    private String currentTextV, currentTextS, currentTextC, newTextV, newTextS, newTextC;
+    /* Dichiarazione varibili API Posizione */
     private static final String API_KEY = "AIzaSyCmBdC1PB8lvsxFPlwBSMVrjafhB__H-eg";
     private GeoApiContext geoApiContext;
     private LocationManager locationManager;
     private LocationListener locationListener;
-
-    private boolean isActivityStarted = false;
-
+    /* Dichiarazione varibili Rilevamento Incidente */
     private static final int SOUND_THRESHOLD = 30500; // Soglia di volume per rilevare un suono forte (puoi regolarla in base alle tue esigenze)
     private static final float threshold = 200.0f; // Modifica la soglia a seconda delle tue esigenze
     private MediaRecorder mediaRecorder;
     private boolean isRecording = false;
-    private TextView tvHello, tvVelocita, tvAddress, tvCoordinate;
-    private ImageButton bttSos, bttProfile;//, bttHome;
-    private GifImageView gifAmb;
-    private String currentTextV, currentTextS, currentTextC, newTextV, newTextS, newTextC;
-    private PersonData dbPerson;
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private float previousSpeed;
     private boolean accidentDetected;
-    private String[] permissions = new String[]{
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.INTERNET,
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.SEND_SMS,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.ACCESS_NETWORK_STATE
-    };
+    /* Dichiarazione varibili altre */
+    private boolean isActivityStarted = false;
+    private PersonData dbPerson;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,23 +65,23 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        gifAmb = findViewById(R.id.gifAmb);
         tvVelocita = findViewById(R.id.tvVelocita);
         tvAddress = findViewById(R.id.tvAddress);
         tvCoordinate = findViewById(R.id.tvCoordinate);
         tvHello = findViewById(R.id.tvHello);
-        //bttHome = findViewById(R.id.bttHome);
         bttSos = findViewById(R.id.bttSos);
         bttProfile = findViewById(R.id.bttProfile);
         currentTextV = tvVelocita.getText().toString();
         currentTextS = tvAddress.getText().toString();
         currentTextC = tvCoordinate.getText().toString();
 
+        //Accesso al db
         dbPerson = new PersonData(this);
         PersonInformation user = dbPerson.getPerson();
 
         tvHello.append(" " + user.getNome());
 
+        //Visualizzazione velocità e posizione
         newTextV = currentTextV + String.format(Locale.getDefault(), "%.2f km/h", ((LocationData) getApplication()).getVelocita());
         tvVelocita.setText(newTextV);
         newTextC = currentTextC + "\nLatitudine: " + ((LocationData) getApplication()).getLatitude() + "\nLongitudine: " + ((LocationData) getApplication()).getLongitude();
@@ -102,40 +92,36 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         }
 
 
-        List<String> missingPermissions = new ArrayList<>();
-
-        // Verifica e aggiungi i permessi mancanti alla lista
-        for (String permission : permissions) {
-            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                missingPermissions.add(permission);
-            }
-        }
-
         // Verifica se ci sono permessi mancanti
-        if (!missingPermissions.isEmpty()) {
-            // Array dei permessi mancanti da richiedere
-            String[] permissionsToRequest = missingPermissions.toArray(new String[0]);
-
-            // Richiedi i permessi mancanti all'utente
-            ActivityCompat.requestPermissions(this, permissionsToRequest, 1);
-        } else {
+        if (MainActivity.missingPermissions.isEmpty()) {
             checkLocationSettings();
             // Hai tutti i permessi necessari
             // Inizializza il servizio di localizzazione
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationListener = new MyLocationListener();
-            // Inizializza l'oggetto GeoApiContext con la tua API_KEY
+            // Permesso accordato, puoi iniziare a utilizzare la localizzazione
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            }
+
+            // Inizializzo tutti gli oggetti utili per velocità, posizionamento
+            // e rilevamento incidenti
             geoApiContext = new GeoApiContext.Builder()
                     .apiKey(API_KEY)
                     .build();
-
             sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
             previousSpeed = 0.0f;
             accidentDetected = false;
             startRecording();
+
+        }else{
+            // Permessi negati
+            Toast.makeText(this, "Permessi negati, Riprova", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(HomeActivity.this, MainActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+            finish();
         }
 
         bttSos.setOnClickListener(new View.OnClickListener() {
@@ -153,88 +139,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             }
         });
     }
-
-    private void checkLocationSettings() {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        // Verifica se il GPS è attivo
-        if (!isGpsEnabled) {
-            Toast.makeText(this, "Attiva Geocalizzazione", Toast.LENGTH_SHORT).show();
-            // Il GPS non è attivo, richiedi all'utente di attivarlo
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-        }
-    }
-    private void callAlarm(String str){
-        if(!isActivityStarted){
-            Toast.makeText(HomeActivity.this, str, Toast.LENGTH_SHORT).show();
-            Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
-            startActivity(intentDetect);
-            isActivityStarted = true;
-        }
-    }
-    private void startRecording() {
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        String outputFile = getFilesDir().getAbsolutePath() + "/audio.3gp";
-        mediaRecorder.setOutputFile(outputFile);
-
-        try {
-            mediaRecorder.prepare();
-            mediaRecorder.start();
-            isRecording = true;
-            checkSoundLevel();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error starting recording: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            finish();
-        }
-    }
-
-    private void checkSoundLevel() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isRecording) {
-                    int amplitude = mediaRecorder.getMaxAmplitude();
-                    if (amplitude > SOUND_THRESHOLD) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                callAlarm("Rumore alto rilevato!");
-                            }
-                        });
-                    }
-                    try {
-                        Thread.sleep(1000); // Controlla il livello di suono ogni secondo (puoi regolare l'intervallo in base alle tue esigenze)
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
-    }
-
-    private void stopRecording() {
-        if (mediaRecorder != null && isRecording) {
-            isRecording = false;
-            try {
-                mediaRecorder.stop();
-                mediaRecorder.reset();
-                mediaRecorder.release();
-                mediaRecorder = null;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -261,7 +165,92 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         stopRecording();
     }
 
+    // Funzione che controlla attivazione GPS
+    private void checkLocationSettings() {
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
+        // Verifica se il GPS è attivo
+        if (!isGpsEnabled) {
+            Toast.makeText(this, "Attiva Geocalizzazione", Toast.LENGTH_SHORT).show();
+            // Il GPS non è attivo, richiedi all'utente di attivarlo
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        }
+    }
+
+    private void callAlarm(String str){
+        if(!isActivityStarted){
+            Toast.makeText(HomeActivity.this, str, Toast.LENGTH_SHORT).show();
+            Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
+            startActivity(intentDetect);
+            isActivityStarted = true;
+        }
+    }
+
+    // Inizio registrazione telefono
+    private void startRecording() {
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        String outputFile = getFilesDir().getAbsolutePath() + "/audio.3gp";
+        mediaRecorder.setOutputFile(outputFile);
+
+        try {
+            mediaRecorder.prepare();
+            mediaRecorder.start();
+            isRecording = true;
+            checkSoundLevel();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error starting recording: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
+    // Controllo di quanto sia forte un rumore
+    private void checkSoundLevel() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRecording) {
+                    int amplitude = mediaRecorder.getMaxAmplitude();
+                    if (amplitude > SOUND_THRESHOLD) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callAlarm("Rumore alto rilevato!");
+                            }
+                        });
+                    }
+                    try {
+                        Thread.sleep(1000); // Controlla il livello di suono ogni secondo (puoi regolare l'intervallo in base alle tue esigenze)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    // Interruzione registrazione
+    private void stopRecording() {
+        if (mediaRecorder != null && isRecording) {
+            isRecording = false;
+            try {
+                mediaRecorder.stop();
+                mediaRecorder.reset();
+                mediaRecorder.release();
+                mediaRecorder = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Cambiamento valori sensori
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -296,7 +285,9 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+    // Funzione che prendre la posizione + velocità utente
     private class MyLocationListener implements LocationListener {
+        //Assegnamento velocità dell'utente
         @Override
         public void onLocationChanged(Location location) {
             ((LocationData) getApplication()).setLatitude(location.getLatitude());
@@ -322,7 +313,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         }
 
         private class GetAddressTask extends AsyncTask<LatLng, Void, String> {
-
+            //Assegnamento posizione dell'utente
             @Override
             protected String doInBackground(LatLng... latLngs) {
                 Geocoder geocoder = new Geocoder(HomeActivity.this, Locale.getDefault());
@@ -346,7 +337,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                 // Ottenere il valore dell'indirizzo globale
                 return ((LocationData) getApplication()).getAddress();
             }
-
             @Override
             protected void onPostExecute(String address) {
                 if (address != null && !address.isEmpty()) {
@@ -357,36 +347,17 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                 }
             }
         }
-
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
             // Implementa il tuo codice qui
         }
-
         @Override
         public void onProviderEnabled(String provider) {
             // Implementa il tuo codice qui
         }
-
         @Override
         public void onProviderDisabled(String provider) {
             // Implementa il tuo codice qui
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permesso accordato, puoi iniziare a utilizzare la localizzazione
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                }
-            } else {
-                // Permesso negato, gestisci questa situazione adeguatamente
-                Toast.makeText(HomeActivity.this, "Location permission denied", Toast.LENGTH_LONG).show();
-            }
         }
     }
 }

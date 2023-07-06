@@ -1,6 +1,8 @@
 package com.example.ringlife;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,19 +16,32 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity {
+    // Dati utili per accesso e registrazione
     private Button bttInUp;
     private PersonData dbPerson;
     private boolean exist;
-    private String action;
     private EditText etPin;
 
-
+    // Array permessi
+    private String[] permissions = new String[]{
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.INTERNET,
+            android.Manifest.permission.CALL_PHONE,
+            android.Manifest.permission.SEND_SMS,
+            android.Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_NETWORK_STATE
+    };
+    public static List<String> missingPermissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +55,24 @@ public class MainActivity extends AppCompatActivity {
         etPin = findViewById(R.id.etPin);
         etPin.setVisibility(View.INVISIBLE);
 
+        missingPermissions = new ArrayList<>();
+
+        // Verifica e aggiungi i permessi mancanti alla lista
+        for (String permission : permissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                missingPermissions.add(permission);
+            }
+        }
+
+        // Verifica se ci sono permessi mancanti
+        if (!MainActivity.missingPermissions.isEmpty()) {
+            // Array dei permessi mancanti da richiedere
+            String[] permissionsToRequest = MainActivity.missingPermissions.toArray(new String[0]);
+
+            // Richiedi i permessi mancanti all'utente
+            ActivityCompat.requestPermissions(this, permissionsToRequest, 1);
+        }
+
         dbPerson = new PersonData(this);
         exist = dbPerson.ifExistPerson();
 
@@ -47,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
             etPin.setVisibility(View.VISIBLE);
             bttInUp.setVisibility(View.INVISIBLE);
             PersonInformation user = dbPerson.getPerson();
+
+            //Azioni invio PIN
             etPin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -78,22 +113,21 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             });
-            
+
+            // Azioni durante la scrittura del PIN
             etPin.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    // Non è necessario implementare nulla in questo metodo
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    // Non è necessario implementare nulla in questo metodo
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
                     String password = s.toString();
-                    // Effettua il controllo sulla password
+                    // Controllo sulla password
                     if (password.equals(user.getPIN()) && !isActivityStarted[0]) {
                         // La password è corretta, avvia un'altra activity
                         Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
@@ -109,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Funzione dei click
     public void clickButton(){
         bttInUp.setOnClickListener((v)->{
             Intent intentReg = new Intent(getString(R.string.LAUNCH_REGISTERACTIVITY));
@@ -116,5 +151,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Controllo permessi utente
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            boolean allPermissionsGranted = true;
+
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (!allPermissionsGranted) {
+                // Almeno un permesso è stato negato, gestisci questa situazione adeguatamente
+                Toast.makeText(MainActivity.this, "Chiusura forzata per mancati permessi", Toast.LENGTH_SHORT).show();
+                // Chiude l'app
+                finish();
+            }
+        }
+    }
 
 }

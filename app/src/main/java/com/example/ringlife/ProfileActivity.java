@@ -99,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                 .show();
                                     } else {
                                         if (oldPin.equals(user.getPIN())) {
-                                            dbPerson.updatePerson(newPin, user.getCodiceFiscale());
+                                            dbPerson.updatePin(newPin, user.getCodiceFiscale());
                                             updateData();
                                             Toast.makeText(ProfileActivity.this, "Pin modificato correttamente",
                                                     Toast.LENGTH_SHORT).show();
@@ -110,10 +110,6 @@ public class ProfileActivity extends AppCompatActivity {
                                     }
                                 }
                                 dialog.dismiss();
-                                /*
-                                 * Intent intentHome = new Intent("com.example.ringlife.HomeActivity.java");
-                                 * startActivity(intentHome);
-                                 */
                             }
                         });
 

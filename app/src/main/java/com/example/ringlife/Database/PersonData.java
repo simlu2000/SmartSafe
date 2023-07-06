@@ -10,7 +10,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;
 
     private static final String DATABASE_NAME = "RingLifeDB";
 
@@ -40,13 +40,11 @@ public class PersonData extends SQLiteOpenHelper {
 
     private static final String KEY_PIN = "Pin";
 
-
-
     public PersonData(Context context) {
         super(context, KEY_NAME, null, DATABASE_VERSION);
     }
 
-    //creazione DB
+    // Creazione DB
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PERSON_TABLE = "CREATE TABLE " + TABLE_NAME + "("
@@ -65,7 +63,7 @@ public class PersonData extends SQLiteOpenHelper {
         db.execSQL(CREATE_PERSON_TABLE);
     }
 
-    //aggiornamento DB
+    // Aggiornameto DB
     @Override
     public void onUpgrade(SQLiteDatabase db, int OldVersion, int NewVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
@@ -73,9 +71,7 @@ public class PersonData extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-
-
-    //aggiungiamo un account
+    // Aggiunta di un account
     public void addPerson(PersonInformation person){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -96,8 +92,44 @@ public class PersonData extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Modifichiamo un account
-    public void updatePerson(String newPin, String codiceF){
+    // Modifica delle informazioni personali
+    public void updatePersonalInfo(PersonInformation person, String codiceF){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, person.getNome());
+        values.put(KEY_SURNAME, person.getCognome());
+        values.put(KEY_DATEOFBIRTH, person.getDataDiNascita());
+        values.put(KEY_TEL, person.getTelefono());
+        values.put(KEY_SEX, person.getSesso());
+
+        String selection = KEY_CF + " = ?";
+        String[] selectionArgs = { codiceF };
+
+        db.update(TABLE_NAME, values, selection, selectionArgs);
+
+        db.close();
+    }
+
+    // Modifica delle informazioni sanitarie
+    public void updateSanitaryInfo(PersonInformation person, String codiceF){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_GRBLOOD, person.getGruppoSanguigno());
+        values.put(KEY_PAT, person.getPatologie());
+        values.put(KEY_ALL, person.getAllergie());
+        values.put(KEY_EMCON, person.getContattoEmergenza());
+        values.put(KEY_EMTEL, person.getTelefoniEmergenza());
+
+        String selection = KEY_CF + " = ?";
+        String[] selectionArgs = { codiceF };
+
+        db.update(TABLE_NAME, values, selection, selectionArgs);
+
+        db.close();
+    }
+
+    // Modifica PIN di un account
+    public void updatePin(String newPin, String codiceF){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_PIN, newPin);
@@ -110,7 +142,7 @@ public class PersonData extends SQLiteOpenHelper {
         db.close();
     }
 
-    // verifichiamo l'esistenza di una persona
+    // Verifica esistenza di una persona
     public boolean ifExistPerson(){
         String countQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -122,6 +154,7 @@ public class PersonData extends SQLiteOpenHelper {
             return false;
     }
 
+    // Acquisizione PIN utente
     public String getPinDB(){
         String pinQuery = "SELECT " + KEY_PIN + " FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -133,6 +166,7 @@ public class PersonData extends SQLiteOpenHelper {
         return pinReturn;
     }
 
+    // Restituzione informazioni utente
     public PersonInformation getPerson(){
         PersonInformation person;
 
@@ -149,6 +183,7 @@ public class PersonData extends SQLiteOpenHelper {
         return person;
     }
 
+    // Elimina utente
     public void deletePerson(String codiceF){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE CodiceFiscale = '" + codiceF + "'"); // DELETE FROM TABLE_NAME WHERE CodiceFiscale = 'code'
