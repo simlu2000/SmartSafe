@@ -50,7 +50,7 @@ public class DetectionActivity extends AppCompatActivity {
         progressBar.setMax(timeSelected);
         timePause();
         progressBar.setProgress(10);
-        Toast.makeText(this, timeSelected + " sec all'invio del SOS", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, timeSelected + " sec all'invio del SOS", Toast.LENGTH_SHORT).show();
         Handler handler = new Handler();
 
         itemList = new ArrayList<>();
