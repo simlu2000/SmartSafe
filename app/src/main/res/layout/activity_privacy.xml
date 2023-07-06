@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\nInformativa sulla privacy di SmartSafe\n\nUltimo aggiornamento: 05/07/2023\n\n
+Grazie per aver scelto SmartSafe, un'applicazione mobile dedicata alla sicurezza personale.\n\n
+La nostra priorità è garantire la protezione dei tuoi dati personali e offrirti un'esperienza sicura. Ti invitiamo a
+leggere attentamente l'informativa sulla privacy di seguito per comprendere come raccogliamo, utilizziamo e
+proteggiamo le tue informazioni.\n\n
+1. Dati raccolti\n\n
+SmartSafe raccoglie i seguenti dati personali: nome, cognome, data di nascita, codice fiscale, numero di telefono e
+sesso. Inoltre, potrai fornire volontariamente informazioni sulla tua salute, come il gruppo sanguigno, eventuali
+patologie, allergie e i contatti di emergenza. L'app potrebbe richiedere anche l'accesso alla localizzazione e al
+microfono del dispositivo per fornire funzionalità specifiche correlate alla sicurezza personale.\n\n
+
+2. Utilizzo dei dati\n\n
+I dati personali raccolti da SmartSafe vengono utilizzati esclusivamente per garantire una risposta rapida del
+personale di soccorso in caso di emergenza e per informare i contatti di emergenza designati in caso di eventuali
+problemi. Questi dati verranno trattati con la massima riservatezza e non saranno mai condivisi con terze parti
+senza il tuo consenso esplicito.\n\n
+
+3. Protezione dei dati\n\n
+Per garantire la protezione dei tuoi dati personali, SmartSafe implementa misure di sicurezza tecniche e
+organizzative adeguate. I tuoi dati saranno protetti da una password creata da te durante la registrazione e non
+verranno mai comunicati all'esterno dell'app.\n\n
+
+4. Cookie\n\n
+SmartSafe non utilizza cookie o tecnologie simili per la raccolta di informazioni.\n\n
+
+5. Diritti dell'utente\n\n
+Hai il diritto di accedere, modificare o cancellare i tuoi dati personali all'interno dell'app. Puoi esercitare
+questi diritti accedendo alle impostazioni del tuo profilo. Se desideri ulteriori informazioni o assistenza
+riguardo ai tuoi diritti sulla privacy, ti preghiamo di contattarci.\n\n
+
+6. Terze parti\n\n
+SmartSafe non condivide i tuoi dati personali con terze parti. Tutte le informazioni che fornisci all'interno
+dell'app rimarranno strettamente confidenziali.\n\n
+
+7. Aggiornamenti della privacy\n\n
+L'informativa sulla privacy di SmartSafe potrebbe subire aggiornamenti periodici. Ti consigliamo di controllare
+regolarmente questa pagina per rimanere informato sulle eventuali modifiche.\n\n
+
+La tua privacy è importante per noi. Utilizzando SmartSafe, accetti la raccolta e l'uso dei tuoi dati personali
+come descritto in questa informativa sulla privacy. Per ulteriori informazioni o domande sulla nostra politica
+sulla privacy, ti invitiamo a contattarci.\n\n
+
+Grazie per la fiducia riposta in SmartSafe."
+            android:fontFamily="@font/nunito_light"
+            android:textColor="@color/black"
+            android:textSize="18dp"/>
+
+    </ScrollView>
+
+
+</LinearLayout>

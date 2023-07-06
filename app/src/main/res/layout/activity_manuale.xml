@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\nManuale d'uso di SmartSafe\n\n
+Introduzione:\n\n
+SmartSafe è un'applicazione per dispositivi Android progettata per rilevare
+improvvisi cali di velocità e forti rumori al fine di verificare il benessere
+dell'utente. In caso di situazioni di pericolo, l'app invierà un avviso ai
+contatti di emergenza dell'utente insieme alla posizione corrente.\n\n
+Requisiti di sistema:\n\n
+SmartSafe richiede un dispositivo Android con sistema operativo versione 11 o successiva.\n\n
+Installazione:\n\n
+L'installazione di SmartSafe avviene tramite file APK. Segui le istruzioni di
+installazione fornite insieme al file per completare il processo di installazione.\n\n
+Utilizzo dell'app:\n\n
+Primo accesso: Durante il primo accesso, dovrai registrarti fornendo i tuoi dati personali e impostare una password. \nUna volta completata la registrazione, avrai accesso alla barra di navigazione con le seguenti opzioni:
+Home: Per accedere alla schermata principale dell'app.\n
+SOS: Avvia la procedura di verifica delle condizioni dell'utente e visualizza informazioni sanitarie importanti (schermo con luminosità massima, disattivabile schiacciando 10 volte lo schermo, stampa disattivazione).\n
+Schermata utente: Per modificare i tuoi dati personali, la password, accedere ai crediti, al manuale d'uso e alla sezione privacy.
+Accesso successivo: Dopo il primo accesso, avrai accesso alla barra di navigazione con le stesse opzioni sopra elencate.\n\n
+Supporto e contatti:\n\n
+Se riscontri errori o hai domande relative all'utilizzo di SmartSafe, puoi contattare il nostro team di supporto inviando un'e-mail a uno dei seguenti indirizzi:\n
+emailrandom1\n
+emailrandom2\n
+emailrandom3\n
+emailrandom4\n\n
+Manutenzione e cura:\n\n
+Lo sviluppo, la manutenzione e l'aggiornamento dell'app SmartSafe sono
+responsabilità del nostro team di sviluppatori. Ci impegniamo a fornire
+regolarmente aggiornamenti per garantire un'esperienza utente ottimale e
+risolvere eventuali problemi segnalati dagli utenti.\n\n
+Sicurezza e avvisi:\n\n
+Si prega di tenere presente che SmartSafe non richiederà mai dati personali
+tramite e-mail, SMS o chiamate. Non condividere mai i tuoi dati personali con
+presunte comunicazioni da parte di SmartSafe.\n\n
+Modifiche e aggiornamenti:\n\n
+SmartSafe potrebbe subire aggiornamenti e modifiche per migliorare le funzionalità,
+la sicurezza e l'esperienza utente. Assicurati di tenere l'applicazione sempre
+aggiornata per usufruire di tutte le nuove funzionalità e miglioramenti.\n\n
+Diritti d'autore:\n\n
+I diritti d'autore dell'app SmartSafe sono di proprietà del team di sviluppatori,
+Alessandro Simoni, Eleonora Fabbri, Alessio Palladino, Simone Lutero, e
+dell'Università di Genova.\n\n\n
+Data di pubblicazione: 2023\n\n\n
+
+Si prega di consultare il manuale d'uso per ulteriori informazioni sull'utilizzo dell'app SmartSafe."
+            android:fontFamily="@font/nunito_light"
+            android:textColor="@color/black"
+            android:textSize="18dp"/>
+
+    </ScrollView>
+
+
+</LinearLayout>

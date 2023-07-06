@@ -6,5 +6,7 @@
     <string name="LAUNCH_DETECTIONACTIVITY">com.example.ringlife.DetectionActivity.java</string>
     <string name="LAUNCH_SOSACTIVITY">com.example.ringlife.SosActivity.java</string>
     <string name="LAUNCH_PROFILEACTIVITY">com.example.ringlife.ProfileActivity.java</string>
-
+    <string name="LAUNCH_MANUALEACTIVITY">com.example.ringlife.ManualeActivity.java</string>
+    <string name="LAUNCH_PRIVACYACTIVITY">com.example.ringlife.PrivacyActivity.java</string>
+    <string name="LAUNCH_CREDITIACTIVITY">com.example.ringlife.CreditiActivity.java</string>
 </resources>

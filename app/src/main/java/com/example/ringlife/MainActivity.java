@@ -70,6 +70,29 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             });
+            
+            etPin.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // Non è necessario implementare nulla in questo metodo
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // Non è necessario implementare nulla in questo metodo
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String password = s.toString();
+                    // Effettua il controllo sulla password
+                    if (password.equals(user.getPIN())) {
+                        // La password è corretta, avvia un'altra activity
+                        Intent intentHome = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY));
+                        startActivity(intentHome);
+                    }
+                }
+            });
         }else{
             clickButton();
         }

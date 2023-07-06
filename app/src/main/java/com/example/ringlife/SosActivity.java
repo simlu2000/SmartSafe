@@ -39,6 +39,17 @@ public class SosActivity extends AppCompatActivity {
         tvGruppoSan = findViewById(R.id.tvGruppoSan);
         tvNumeriEmergenza = findViewById(R.id.tvNumeriEmergenza);
 
+        // Ottieni il riferimento al WindowManager
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+
+        // Imposta il flag per mantenere l'attività sempre accesa
+        layoutParams.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+
+        // Imposta il valore massimo per la luminosità dello schermo
+        layoutParams.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL;
+
+        // Applica le modifiche
+        getWindow().setAttributes(layoutParams);
 
         dbPerson = new PersonData(SosActivity.this);
         PersonInformation user = dbPerson.getPerson();
@@ -53,26 +64,29 @@ public class SosActivity extends AppCompatActivity {
         String contattiEmergenza = createStringSos(user.getContattoEmergenza(), user.getTelefoniEmergenza());
         tvNumeriEmergenza.append(contattiEmergenza);
 
-
-        // Dichiara l'instanza SmsManager e avvia il metodo sendTextMessage per inviare messaggi
+        // Dichiara l'instanza SmsManager e avvia il metodo sendTextMessage per inviare
+        // messaggi
         SmsManager sms = SmsManager.getDefault();
-        coordinate = "https://www.google.com/maps/search/?api=1&query=" + ((LocationData) getApplication()).getLatitude() + "," + ((LocationData) getApplication()).getLongitude();
+        coordinate = "https://www.google.com/maps/search/?api=1&query="
+                + ((LocationData) getApplication()).getLatitude() + ","
+                + ((LocationData) getApplication()).getLongitude();
         messaggio = "É UN TEST\n\n\nMessaggio generato da SmartSafe: ho bisogno di aiuto, sono qui: \n" + coordinate;
 
-        for(int i=0; i<numeriEmergenza.length; i++) {
+        for (int i = 0; i < numeriEmergenza.length; i++) {
             sms.sendTextMessage(numeriEmergenza[i], null, messaggio, null, null);
         }
 
         // se ha dei numeri di emergeza, chiama il primo numero
-        if(numeriEmergenza.length > 0) {
+        if (numeriEmergenza.length > 0) {
             startCallToNumber(numeriEmergenza[currentEmergencyNumberIndex]);
         }
 
     }
 
     private void startCallToNumber(String number) {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            Log.d("DEBUGGGGGGGG", "avvio chiamata numero: "+ number + " [" + currentEmergencyNumberIndex + "]");
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("DEBUGGGGGGGG", "avvio chiamata numero: " + number + " [" + currentEmergencyNumberIndex + "]");
             currentEmergencyNumberIndex++;
             Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + number));
@@ -81,17 +95,19 @@ public class SosActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    public void onBackPressed() {
+        Intent intent = new Intent(getString(R.string.LAUNCH_HOMEACTIVITY))
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
-    private String createStringSos(String contattoEmergenza, String telefoniEmergenza){
+    private String createStringSos(String contattoEmergenza, String telefoniEmergenza) {
         String[] contatti = contattoEmergenza.split(",");
         String[] telefoni = telefoniEmergenza.split(",");
         String stringSos = "";
-        for(int i = 0; i < contatti.length; i++){
-            if(i==0) stringSos += " ";
+        for (int i = 0; i < contatti.length; i++) {
+            if (i == 0)
+                stringSos += " ";
             stringSos += contatti[i] + ": " + telefoni[i] + "\n";
         }
         return stringSos;
@@ -100,7 +116,7 @@ public class SosActivity extends AppCompatActivity {
     public BroadcastReceiver callEndedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("DEBUGGGGGGGG", "RICEVUTO CALL_ENDED: "+ currentEmergencyNumberIndex + "\n" + intent.getAction());
+            Log.d("DEBUGGGGGGGG", "RICEVUTO CALL_ENDED: " + currentEmergencyNumberIndex + "\n" + intent.getAction());
             dbPerson = new PersonData(SosActivity.this);
             PersonInformation user = dbPerson.getPerson();
             String[] numeriEmergenza = user.getTelefoniEmergenza().split(",");
@@ -115,7 +131,8 @@ public class SosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Intent itt = this.getApplicationContext().registerReceiver(callEndedReceiver, new IntentFilter("com.example.ringlife.CALL_ENDED"));
+        Intent itt = this.getApplicationContext().registerReceiver(callEndedReceiver,
+                new IntentFilter("com.example.ringlife.CALL_ENDED"));
         Log.d("DEBUGGGGGGGG", "INVIO CALL_ENDED: " + itt);
     }
 
@@ -123,6 +140,6 @@ public class SosActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         this.getApplicationContext().unregisterReceiver(callEndedReceiver);
-        Log.d("DEBUGGGGGGGG", "PAUSA CALL_ENDED: "+ currentEmergencyNumberIndex);
+        Log.d("DEBUGGGGGGGG", "PAUSA CALL_ENDED: " + currentEmergencyNumberIndex);
     }
 }

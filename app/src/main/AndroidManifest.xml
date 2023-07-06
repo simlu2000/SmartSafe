@@ -34,7 +34,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="com.example.ringlife.MainActivity.java"></action>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -76,6 +75,33 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.example.ringlife.ProfileActivity.java"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ManualeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.ringlife.ManualeActivity.java"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".CreditiActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.ringlife.CreditiActivity.java"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".PrivacyActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.ringlife.PrivacyActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
         </activity>
