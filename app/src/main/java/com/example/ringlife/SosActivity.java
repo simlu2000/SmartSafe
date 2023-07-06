@@ -21,7 +21,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class SosActivity extends AppCompatActivity {
 
-    private TextView tvNome, tvCognome, tvDataNascita, tvPatologie, tvAllergie, tvGruppoSan, tvNumeriEmergenza;
+    private TextView tvNome, tvCognome, tvDataNascita, tvPatologie, tvAllergie, tvGruppoSan, tvNumeriEmergenza, tvCodiceFiscale;
     private String messaggio, coordinate;
     private PersonData dbPerson;
     private int currentEmergencyNumberIndex = 0; // keep track of the current emergency number
@@ -35,6 +35,7 @@ public class SosActivity extends AppCompatActivity {
         tvNome = findViewById(R.id.tvNome);
         tvCognome = findViewById(R.id.tvCognome);
         tvDataNascita = findViewById(R.id.tvDataNascita);
+        tvCodiceFiscale = findViewById(R.id.tvCodiceFiscale);
         tvPatologie = findViewById(R.id.tvPatologie);
         tvAllergie = findViewById(R.id.tvAllergie);
         tvGruppoSan = findViewById(R.id.tvGruppoSan);
@@ -58,6 +59,7 @@ public class SosActivity extends AppCompatActivity {
         tvNome.append(user.getNome());
         tvCognome.append(user.getCognome());
         tvDataNascita.append(user.getDataDiNascita());
+        tvCodiceFiscale.append(user.getCodiceFiscale());
         tvPatologie.append(user.getPatologie());
         tvAllergie.append(user.getAllergie());
         tvGruppoSan.append(user.getGruppoSanguigno());

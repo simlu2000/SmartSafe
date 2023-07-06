@@ -50,6 +50,17 @@
         android:layout_marginLeft="20dp"/>
 
     <TextView
+        android:id="@+id/tvCodiceFiscale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Codice fiscale: "
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
         android:id="@+id/tvPatologie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,3 +105,5 @@
         android:layout_marginLeft="20dp"/>
 
 </LinearLayout>
+
+
