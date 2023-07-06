@@ -1,14 +1,10 @@
 package com.example.ringlife;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -24,7 +20,6 @@ public class SosActivity extends AppCompatActivity {
     private TextView tvNome, tvCognome, tvDataNascita, tvPatologie, tvAllergie, tvGruppoSan, tvNumeriEmergenza, tvCodiceFiscale;
     private String messaggio, coordinate;
     private PersonData dbPerson;
-    private int currentEmergencyNumberIndex = 0; // keep track of the current emergency number
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +74,15 @@ public class SosActivity extends AppCompatActivity {
             sms.sendTextMessage(numeriEmergenza[i], null, messaggio, null, null);
         }
 
-        // se ha dei numeri di emergeza, chiama il primo numero
+        // se ha dei numeri di emergeza, chiama il numero prioritario
         if (numeriEmergenza.length > 0) {
-            startCallToNumber(numeriEmergenza[currentEmergencyNumberIndex]);
+            startCallToNumber(numeriEmergenza[0]);
         }
 
     }
 
     private void startCallToNumber(String number) {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            Log.d("DEBUGGGGGGGG", "avvio chiamata numero: " + number + " [" + currentEmergencyNumberIndex + "]");
-            currentEmergencyNumberIndex++;
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + number));
             startActivity(callIntent);
@@ -114,35 +106,5 @@ public class SosActivity extends AppCompatActivity {
             stringSos += contatti[i] + ": " + telefoni[i] + "\n";
         }
         return stringSos;
-    }
-
-    public BroadcastReceiver callEndedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d("DEBUGGGGGGGG", "RICEVUTO CALL_ENDED: " + currentEmergencyNumberIndex + "\n" + intent.getAction());
-            dbPerson = new PersonData(SosActivity.this);
-            PersonInformation user = dbPerson.getPerson();
-            String[] numeriEmergenza = user.getTelefoniEmergenza().split(",");
-
-            // check if there are more numbers to call
-            if (currentEmergencyNumberIndex < numeriEmergenza.length) {
-                startCallToNumber(numeriEmergenza[currentEmergencyNumberIndex]);
-            }
-        }
-    };
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Intent itt = this.getApplicationContext().registerReceiver(callEndedReceiver,
-                new IntentFilter("com.example.ringlife.CALL_ENDED"));
-        Log.d("DEBUGGGGGGGG", "INVIO CALL_ENDED: " + itt);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        this.getApplicationContext().unregisterReceiver(callEndedReceiver);
-        Log.d("DEBUGGGGGGGG", "PAUSA CALL_ENDED: " + currentEmergencyNumberIndex);
     }
 }

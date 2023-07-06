@@ -10,7 +10,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 17;
 
     private static final String DATABASE_NAME = "RingLifeDB";
 
@@ -93,17 +93,18 @@ public class PersonData extends SQLiteOpenHelper {
     }
 
     // Modifica delle informazioni personali
-    public void updatePersonalInfo(PersonInformation person, String codiceF){
+    public void updatePersonalInfo(PersonInformation person){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_CF, person.getCodiceFiscale());
         values.put(KEY_NAME, person.getNome());
         values.put(KEY_SURNAME, person.getCognome());
         values.put(KEY_DATEOFBIRTH, person.getDataDiNascita());
         values.put(KEY_TEL, person.getTelefono());
         values.put(KEY_SEX, person.getSesso());
 
-        String selection = KEY_CF + " = ?";
-        String[] selectionArgs = { codiceF };
+        String selection = "";
+        String[] selectionArgs = { "" };
 
         db.update(TABLE_NAME, values, selection, selectionArgs);
 
@@ -111,7 +112,7 @@ public class PersonData extends SQLiteOpenHelper {
     }
 
     // Modifica delle informazioni sanitarie
-    public void updateSanitaryInfo(PersonInformation person, String codiceF){
+    public void updateSanitaryInfo(PersonInformation person){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_GRBLOOD, person.getGruppoSanguigno());
@@ -120,8 +121,8 @@ public class PersonData extends SQLiteOpenHelper {
         values.put(KEY_EMCON, person.getContattoEmergenza());
         values.put(KEY_EMTEL, person.getTelefoniEmergenza());
 
-        String selection = KEY_CF + " = ?";
-        String[] selectionArgs = { codiceF };
+        String selection = "";
+        String[] selectionArgs = { "" };
 
         db.update(TABLE_NAME, values, selection, selectionArgs);
 
@@ -129,15 +130,15 @@ public class PersonData extends SQLiteOpenHelper {
     }
 
     // Modifica PIN di un account
-    public void updatePin(String newPin, String codiceF){
+    public void updatePin(String newPin){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_PIN, newPin);
 
-        String selection = KEY_CF + " = ?";
-        String[] selectionArgs = { codiceF };
+        String selection = "";
+        String[] selectionArgs = { "" };
 
-        db.update(TABLE_NAME, values, selection, selectionArgs);
+        db.update(TABLE_NAME, values, selection,selectionArgs);
 
         db.close();
     }
