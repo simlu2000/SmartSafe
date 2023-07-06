@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/colorePrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="SmartSafe"
+            android:textSize="40dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito_bold_italic"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="5dp"/>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifAmb"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="-150dp"
+            android:src="@drawable/ambulanza"/>
+
+
+    </LinearLayout>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cambia i tuoi dati sanitari"
+        android:fontFamily="@font/nunito_bold_italic"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/virus"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"/>
+
+    <EditText
+        android:id="@+id/etPatologie"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Patologie"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="80dp"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/allergia"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"/>
+
+    <EditText
+        android:id="@+id/etAllergie"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Allergie"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="80dp"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sangue"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"/>
+
+    <Spinner
+        android:id="@+id/spGruppoSanguigno"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/GruppoSanguigno"
+        android:layout_marginTop="-25dp"
+        android:layout_marginLeft="80dp"/>
+
+        <LinearLayout
+            android:id="@+id/lytContatti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/etContattoEm1"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Contatto \nd'emergenza*"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginLeft="-5dp"
+                    android:inputType="textCapWords" />
+
+                <EditText
+                    android:id="@+id/etTelefonoEm1"
+                    android:layout_width="120dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Telefono"
+                    android:inputType="phone"/>
+
+                <ImageView
+                    android:id="@+id/deleteContact1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/trash"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="15dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bttNuoviElementi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="125dp"
+            android:backgroundTint="@android:color/holo_blue_light" />
+
+    </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginTop="50dp"
+       android:layout_marginLeft="18dp">
+    <Button
+        android:id="@+id/bttSavePersonal"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="170dp"
+        android:backgroundTint="#00bfff"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Salva"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/bttBackPersonal"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="-65dp"
+        android:backgroundTint="#b9232b"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Annulla"
+        android:textColor="@color/white"
+        android:textSize="20dp"/>
+   </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#00bfff">
+
+        <ImageButton
+            android:id="@+id/bttHome"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navhome"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
+
+
+        <ImageButton
+            android:id="@+id/bttSos"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navsos"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            />
+        <ImageButton
+            android:id="@+id/bttProfile"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navprofile"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+</LinearLayout>

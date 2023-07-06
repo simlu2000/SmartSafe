@@ -9,4 +9,6 @@
     <string name="LAUNCH_MANUALEACTIVITY">com.example.ringlife.ManualeActivity.java</string>
     <string name="LAUNCH_PRIVACYACTIVITY">com.example.ringlife.PrivacyActivity.java</string>
     <string name="LAUNCH_CREDITIACTIVITY">com.example.ringlife.CreditiActivity.java</string>
+    <string name="LAUNCH_CHANGEPERSONAL">com.example.ringlife.ChangePersonalActivity.java</string>
+    <string name="LAUNCH_CHANGESANITARY">com.example.ringlife.ChangeSanitaryActivity.java</string>
 </resources>

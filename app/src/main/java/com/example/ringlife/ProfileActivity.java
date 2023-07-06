@@ -23,6 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button bttChangeAna, bttChangeMed, bttChangePin, bttDelete;
     private PersonData dbPerson;
     private PersonInformation user;
+    private boolean isActivityStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,20 @@ public class ProfileActivity extends AppCompatActivity {
         dbPerson = new PersonData(this);
         user = dbPerson.getPerson();
 
+        bttChangeAna.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentAna = new Intent(getString(R.string.LAUNCH_CHANGEPERSONAL));
+                startActivity(intentAna);
+            }
+        });
+        bttChangeMed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMed = new Intent("com.example.ringlife.ChangeSanitaryActivity.java");
+                startActivity(intentMed);
+            }
+        });
         bttChangePin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,14 +68,11 @@ public class ProfileActivity extends AppCompatActivity {
                 // Crea i due EditText che serviranno per l'input
                 EditText oldPinEditText = new EditText(ProfileActivity.this);
                 oldPinEditText.setHint("Inserisci il vecchio PIN");
-                oldPinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD); // Imposta
-                                                                                                                     // l'input
-                                                                                                                     // come
-                                                                                                                     // numerico
+                oldPinEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                 LinearLayout.LayoutParams oldPinParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
-                oldPinParams.setMargins(70, 20, 70, 20); // Imposta i margini (left, top, right, bottom)
+                oldPinParams.setMargins(70, 20, 70, 20);
                 oldPinEditText.setLayoutParams(oldPinParams);
                 layout.addView(oldPinEditText); // Aggiungi il primo EditText al layout
 
@@ -70,9 +82,19 @@ public class ProfileActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams newPinParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
-                newPinParams.setMargins(70, 20, 70, 20); // Imposta i margini (left, top, right, bottom)
+                newPinParams.setMargins(70, 20, 70, 20);
                 newPinEditText.setLayoutParams(newPinParams);
                 layout.addView(newPinEditText); // Aggiungi il secondo EditText al layout
+
+                EditText confirmPinEditText = new EditText(ProfileActivity.this);
+                confirmPinEditText.setHint("Conferma nuovo PIN");
+                confirmPinEditText.setInputType(InputType.TYPE_CLASS_NUMBER); // Imposta l'input come numerico
+                LinearLayout.LayoutParams confirmPinParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                confirmPinParams.setMargins(70, 20, 70, 20);
+                confirmPinEditText.setLayoutParams(confirmPinParams);
+                layout.addView(confirmPinEditText); // Aggiunge il terzo EditText al layout
 
                 MaterialAlertDialogBuilder dialogPin = new MaterialAlertDialogBuilder(ProfileActivity.this)
                         .setTitle("Cambia PIN")
@@ -90,23 +112,29 @@ public class ProfileActivity extends AppCompatActivity {
                                 // Qui puoi ottenere i valori inseriti nei campi di input
                                 String oldPin = oldPinEditText.getText().toString();
                                 String newPin = newPinEditText.getText().toString();
+                                String confirmPIN = confirmPinEditText.getText().toString();
 
-                                if (oldPin.matches("") || newPin.matches("")) {
+                                if (oldPin.matches("") || newPin.matches("") || confirmPIN.matches("")) {
                                     Toast.makeText(ProfileActivity.this, "Campo pin vuoto", Toast.LENGTH_LONG).show();
                                 } else {
-                                    if (!oldPin.matches("[0-9.]+") && !newPin.matches("[0-9.]+")) {
-                                        Toast.makeText(ProfileActivity.this, "Campo pin non valido", Toast.LENGTH_LONG)
-                                                .show();
-                                    } else {
-                                        if (oldPin.equals(user.getPIN())) {
-                                            dbPerson.updatePin(newPin, user.getCodiceFiscale());
-                                            updateData();
-                                            Toast.makeText(ProfileActivity.this, "Pin modificato correttamente",
-                                                    Toast.LENGTH_SHORT).show();
+                                    if(oldPin.equals(user.getPIN())){
+                                        if (!oldPin.matches("[0-9.]+") && !newPin.matches("[0-9.]+")) {
+                                            Toast.makeText(ProfileActivity.this, "Campo pin non valido", Toast.LENGTH_LONG)
+                                                    .show();
                                         } else {
-                                            Toast.makeText(ProfileActivity.this, "PIN di accesso, errato!",
-                                                    Toast.LENGTH_LONG).show();
+                                            if (oldPin.equals(user.getPIN())) {
+                                                dbPerson.updatePin(newPin, user.getCodiceFiscale());
+                                                updateData();
+                                                Toast.makeText(ProfileActivity.this, "Pin modificato correttamente",
+                                                        Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(ProfileActivity.this, "PIN di accesso, errato!",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
                                         }
+                                    }else{
+                                        Toast.makeText(ProfileActivity.this, "I nuovi PIN non sono uguali",
+                                                Toast.LENGTH_LONG).show();
                                     }
                                 }
                                 dialog.dismiss();
@@ -157,8 +185,7 @@ public class ProfileActivity extends AppCompatActivity {
         bttSos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
-                startActivity(intentDetect);
+                callAlarm("Attivazione SOS Manuale");
             }
         });
 
@@ -190,5 +217,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void updateData() {
         user = dbPerson.getPerson();
+    }
+
+    private void callAlarm(String str){
+        if(!isActivityStarted){
+            Toast.makeText(ProfileActivity.this, str, Toast.LENGTH_SHORT).show();
+            Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
+            startActivity(intentDetect);
+            isActivityStarted = true;
+        }
     }
 }

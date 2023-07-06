@@ -68,7 +68,7 @@ public class SosActivity extends AppCompatActivity {
         coordinate = "https://www.google.com/maps/search/?api=1&query="
                 + ((LocationData) getApplication()).getLatitude() + ","
                 + ((LocationData) getApplication()).getLongitude();
-        messaggio = "É UN TEST\n\n\nMessaggio generato da SmartSafe: ho bisogno di aiuto, sono qui: \n" + coordinate;
+        messaggio = "Messaggio generato da SmartSafe: ho bisogno di aiuto, sono qui: \n" + coordinate;
 
         for (int i = 0; i < numeriEmergenza.length; i++) {
             sms.sendTextMessage(numeriEmergenza[i], null, messaggio, null, null);

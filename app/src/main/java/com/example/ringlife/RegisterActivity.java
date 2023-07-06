@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,6 @@ import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class RegisterActivity extends AppCompatActivity {
-    private final String TAG = "RegisterActivity";
 
     /* Dichiarazione varibili RegisterActivity Layout */
     private EditText etNome, etCognome, etCodiceFiscale, etDataNascita, etTelefono, etPatologie, etAllergie, etContattoEm, etPin, etTelefonoEm;
@@ -190,7 +188,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
     // Inserimento su db
     private void insertInDB(){
-        Log.i(TAG, "Entro nella funzione");
         bttConferma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,7 +204,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String sesso = spSesso.getSelectedItem().toString();
                 String gruppoSanguigno = spGruppoSanguigno.getSelectedItem().toString();
 
-                //Toast.makeText(RegisterActivity.this, "Contatto: " + contattoEm + " Telefono: " + telefonoEm, Toast.LENGTH_LONG).show();
 
                 if (nome.isEmpty() || cognome.isEmpty() || codiceFiscale.isEmpty() || dataNascita.isEmpty() ||
                         telefono.isEmpty() || patologie.isEmpty() || allergie.isEmpty() || contattoEm.isEmpty()

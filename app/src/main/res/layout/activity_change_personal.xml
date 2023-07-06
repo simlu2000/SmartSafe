@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/colorePrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="SmartSafe"
+            android:textSize="40dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito_bold_italic"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="5dp"/>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifAmb"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="-150dp"
+            android:src="@drawable/ambulanza"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cambia i tuoi dati personale"
+        android:fontFamily="@font/nunito_bold_italic"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/user"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/etNome"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Nome"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="40dp"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/user"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/etCognome"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Cognome"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="40dp"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/calendar"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/etDataNascita"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Data di nascita"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="40dp"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"
+        android:inputType="datetime"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sex"
+        android:layout_marginTop="20dp"/>
+
+    <Spinner
+        android:id="@+id/spSesso"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/Sesso"
+        android:layout_marginTop="-25dp"
+        android:layout_marginLeft="40dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/id"
+            android:layout_marginTop="20dp"/>
+
+
+        <EditText
+        android:id="@+id/etCodiceFiscale"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Codice fiscale"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="40dp"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/phone"
+            android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/etTelefono"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Telefono"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="40dp"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/black"
+        android:inputType="number"/>
+
+    </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginTop="50dp"
+       android:layout_marginLeft="18dp">
+    <Button
+        android:id="@+id/bttSavePersonal"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="170dp"
+        android:backgroundTint="#00bfff"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Salva"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/bttBackPersonal"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="-65dp"
+        android:backgroundTint="#b9232b"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Annulla"
+        android:textColor="@color/white"
+        android:textSize="20dp"/>
+   </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#00bfff">
+
+        <ImageButton
+            android:id="@+id/bttHome"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navhome"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
+
+
+        <ImageButton
+            android:id="@+id/bttSos"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navsos"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            />
+        <ImageButton
+            android:id="@+id/bttProfile"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/navprofile"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+</LinearLayout>

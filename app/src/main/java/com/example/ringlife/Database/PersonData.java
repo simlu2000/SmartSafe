@@ -10,7 +10,7 @@ import com.example.ringlife.PersonInformation.PersonInformation;
 
 public class PersonData extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 18;
 
     private static final String DATABASE_NAME = "RingLifeDB";
 
@@ -103,8 +103,8 @@ public class PersonData extends SQLiteOpenHelper {
         values.put(KEY_TEL, person.getTelefono());
         values.put(KEY_SEX, person.getSesso());
 
-        String selection = "";
-        String[] selectionArgs = { "" };
+        String selection = KEY_PIN + " = ?";
+        String[] selectionArgs = { person.getPIN() };
 
         db.update(TABLE_NAME, values, selection, selectionArgs);
 
@@ -121,8 +121,8 @@ public class PersonData extends SQLiteOpenHelper {
         values.put(KEY_EMCON, person.getContattoEmergenza());
         values.put(KEY_EMTEL, person.getTelefoniEmergenza());
 
-        String selection = "";
-        String[] selectionArgs = { "" };
+        String selection = KEY_PIN + " = ?";
+        String[] selectionArgs = { person.getPIN() };
 
         db.update(TABLE_NAME, values, selection, selectionArgs);
 
@@ -130,13 +130,13 @@ public class PersonData extends SQLiteOpenHelper {
     }
 
     // Modifica PIN di un account
-    public void updatePin(String newPin){
+    public void updatePin(String newPin, String codiceFiscale){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_PIN, newPin);
 
-        String selection = "";
-        String[] selectionArgs = { "" };
+        String selection = KEY_CF + " = ?";
+        String[] selectionArgs = { codiceFiscale };
 
         db.update(TABLE_NAME, values, selection,selectionArgs);
 

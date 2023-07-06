@@ -61,7 +61,7 @@
         android:id="@+id/bttChangeAna"
         android:layout_width="310dp"
         android:layout_height="75dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#00bfff"
         android:fontFamily="@font/nunito_bold"
         android:text="Modifica dati anagrafici"
@@ -105,7 +105,7 @@
         android:src="@drawable/manuale"
         android:background="@android:color/transparent"
         android:layout_marginLeft="53dp"
-        android:layout_marginTop="45dp"/>
+        android:layout_marginTop="25dp"/>
 
     <ImageButton
         android:id="@+id/bttPrivacy"
