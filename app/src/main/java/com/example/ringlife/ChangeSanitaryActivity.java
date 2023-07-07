@@ -1,9 +1,10 @@
 package com.example.ringlife;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,17 +19,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ringlife.Database.PersonData;
 import com.example.ringlife.PersonInformation.PersonInformation;
 
+import java.util.Arrays;
+
 public class ChangeSanitaryActivity extends AppCompatActivity {
 
     /* Dichiarazione varibili ChangeSanitaryActivity Layout */
-    private EditText etPatologie, etAllergie, etContattoEm1, etTelefonoEm1;
+    private EditText etPatologie, etAllergie, etContattoEm1, etTelefonoEm1, etContattoEm2, etTelefonoEm2, etContattoEm3, etTelefonoEm3, etContattoEm4, etTelefonoEm4, etContattoEm5, etTelefonoEm5;
     private Spinner spGruppoSanguigno;
     private ArrayAdapter<CharSequence> adapter;
     private Button bttSalva, bttAnnulla, bttNuoviElementi;
-    private ImageButton bttHome, bttSos, bttProfile;
+    private ImageButton bttHome, bttSos, bttProfile,deleteContact1,deleteContact2,deleteContact3,deleteContact4,deleteContact5;
     private PersonData dbPerson;
     private PersonInformation user;
-    private LinearLayout lytContatti;
+    private LinearLayout lytContatti, lytSanitaryInfo;
     private int maxCont = 0;
     private boolean isActivityStarted = false;
 
@@ -38,7 +41,7 @@ public class ChangeSanitaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_sanitary);
 
         lytContatti = findViewById(R.id.lytContatti);
-
+        lytSanitaryInfo = findViewById(R.id.lytSanitaryInfo);
         etPatologie = findViewById(R.id.etPatologie);
         etAllergie = findViewById(R.id.etAllergie);
         spGruppoSanguigno = findViewById(R.id.spGruppoSanguigno);
@@ -46,6 +49,7 @@ public class ChangeSanitaryActivity extends AppCompatActivity {
         etTelefonoEm1 = findViewById(R.id.etTelefonoEm1);
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.GruppoSanguigno, android.R.layout.simple_spinner_item);
+        deleteContact1 = findViewById(R.id.deleteContact1);
         bttNuoviElementi = findViewById(R.id.bttNuoviElementi);
         bttSalva = findViewById(R.id.bttSavePersonal);
         bttAnnulla = findViewById(R.id.bttBackPersonal);
@@ -70,6 +74,8 @@ public class ChangeSanitaryActivity extends AppCompatActivity {
             etTelefonoEm1.setText(numeriEmergenza[0]);
         }else{
             if(contattiEmergenza.length > 1 && numeriEmergenza.length > 1){
+                etContattoEm1.setText(contattiEmergenza[0]);
+                etTelefonoEm1.setText(numeriEmergenza[0]);
                 for (int i = 1; i < contattiEmergenza.length; i++) {
                     createNewTextViewAndEditText(lytContatti, i+1, true, contattiEmergenza[i], numeriEmergenza[i]);
 
@@ -95,23 +101,43 @@ public class ChangeSanitaryActivity extends AppCompatActivity {
         bttSalva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*String nome = etNome.getText().toString().trim();
-                String cognome = etCognome.getText().toString().trim();
-                String codiceFiscale = etCodiceFiscale.getText().toString().trim();
-                String dataNascita = etDataNascita.getText().toString().trim();
-                String telefono = etTelefono.getText().toString().trim();
-                String sesso = spSesso.getSelectedItem().toString();
+                String patologie = etPatologie.getText().toString();
+                String allergie = etAllergie.getText().toString();
+                String gruppoSanguigno = spGruppoSanguigno.getSelectedItem().toString();
+                String contatto1 = "", contatto2 = "", contatto3 = "", contatto4 = "", contatto5= "";
+                String numero1 = "", numero2 = "", numero3 = "", numero4 = "", numero5= "";
 
-                if (nome.isEmpty() || cognome.isEmpty() || codiceFiscale.isEmpty() || dataNascita.isEmpty() || telefono.isEmpty()) {
+                contatto1 = etContattoEm1.getText().toString();
+                numero1 = etTelefonoEm1.getText().toString();
+                if(etContattoEm2 != null && etTelefonoEm2 != null){
+                    contatto2 = etContattoEm2.getText().toString();
+                    numero2 = etTelefonoEm2.getText().toString();
+                }
+                if(etContattoEm3 != null && etTelefonoEm3 != null){
+                    contatto3 = etContattoEm3.getText().toString();
+                    numero3 = etTelefonoEm3.getText().toString();
+                }
+                if(etContattoEm4 != null && etTelefonoEm4 != null){
+                    contatto4 = etContattoEm4.getText().toString();
+                    numero4 = etTelefonoEm4.getText().toString();
+                }
+                if(etContattoEm5 != null && etTelefonoEm5 != null){
+                    contatto5 = etContattoEm5.getText().toString();
+                    numero5 = etTelefonoEm5.getText().toString();
+                }
+
+                if (patologie.isEmpty() || allergie.isEmpty() || (contatto1.isEmpty() && contatto2.isEmpty() &&contatto3.isEmpty() &&contatto4.isEmpty() &&contatto5.isEmpty())) {
                     Toast.makeText(ChangeSanitaryActivity.this, "Tutti i campi devono essere compilati", Toast.LENGTH_LONG).show();
                 } else {
-                    PersonInformation personInformation = new PersonInformation(codiceFiscale, nome, cognome,dataNascita, telefono, sesso, "", "", "", "", "", user.getPIN());
-                    dbPerson.updatePersonalInfo(personInformation);
+                    String contatti = concatena(contatto1, contatto2, contatto3, contatto4, contatto5);
+                    String numeri = concatena(numero1, numero2, numero3, numero4, numero5);
+                    PersonInformation personInformation = new PersonInformation("", "", "", "", "", "", gruppoSanguigno, patologie, allergie, contatti, numeri, user.getPIN());
+                    dbPerson.updateSanitaryInfo(personInformation);
                     Toast.makeText(ChangeSanitaryActivity.this, "Modifiche apportate con successo", Toast.LENGTH_SHORT).show();
                     Intent intentPro = new Intent(getString(R.string.LAUNCH_PROFILEACTIVITY))
                             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intentPro);
-                }*/
+                }
             }
         });
 
@@ -152,53 +178,122 @@ public class ChangeSanitaryActivity extends AppCompatActivity {
             }
         });
 
+        deleteContact1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etContattoEm1.setText("");
+                etTelefonoEm1.setText("");
+            }
+        });
     }
 
     private void createNewTextViewAndEditText(LinearLayout layout, int n, boolean call, String contatto, String numero){
-        //create names id for edit text and text view
-        LinearLayout lytContTel = new LinearLayout(this);
-        lytContTel.setLayoutParams(new LinearLayout.LayoutParams(
+        // Crea il nuovo LinearLayout
+        LinearLayout newLinearLayout = new LinearLayout(this);
+        newLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        newLinearLayout.setTag("box" + n);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
-        lytContTel.setOrientation(LinearLayout.HORIZONTAL);
-        lytContTel.setGravity(Gravity.CENTER_HORIZONTAL);
-        lytContTel.setPadding(0, 10, 0, 0);
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        layoutParams.setMargins(0, 10, 0, 0);
+        newLinearLayout.setLayoutParams(layoutParams);
 
+        // Crea il primo EditText
+        EditText contattoEditText = new EditText(this);
+        LinearLayout.LayoutParams contattoParams = new LinearLayout.LayoutParams(
+                dpToPx(160), // Usa la funzione dpToPx per convertire i dp in pixel
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        contattoParams.setMargins(dpToPx(-5), 0, dpToPx(25), 0);
+        contattoEditText.setTag("etContattoEm" + n);
+        contattoEditText.setLayoutParams(contattoParams);
+        contattoEditText.setHint("Contatto \nd'emergenza*");
+        contattoEditText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
+        // Crea il secondo EditText
+        EditText telefonoEditText = new EditText(this);
+        LinearLayout.LayoutParams telefonoParams = new LinearLayout.LayoutParams(
+                dpToPx(120), // Usa la funzione dpToPx per convertire i dp in pixel
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        telefonoParams.setMargins(dpToPx(-15), dpToPx(10), 0, 0);
+        telefonoEditText.setTag("etTelefonoEm" + n);
+        telefonoEditText.setLayoutParams(telefonoParams);
+        telefonoEditText.setHint("Telefono");
+        telefonoEditText.setInputType(InputType.TYPE_CLASS_PHONE);
 
-        //create edit text contatto emergenza
-        EditText editTextContattoEm = new EditText(this);
-        editTextContattoEm.setId(View.generateViewId());
-        editTextContattoEm.setTag("etContattoEm" + n);
-        editTextContattoEm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        editTextContattoEm.setHint("Contatto \nd'emergenza*");
-        editTextContattoEm.setLayoutParams(new LinearLayout.LayoutParams(
-                dpToPx(160), // Larghezza fissa di 160dp
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        //create edit text telefono emergenza
-        EditText editTextTelefonoEm = new EditText(this);
-        editTextTelefonoEm.setId(View.generateViewId());
-        editTextTelefonoEm.setTag("etTelefonoEm" + n);
-        editTextTelefonoEm.setHint("Telefono");
-        editTextTelefonoEm.setInputType(InputType.TYPE_CLASS_PHONE);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                dpToPx(120), // Width of 160dp
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(dpToPx(25), dpToPx(10), 0, 0);
-        editTextTelefonoEm.setLayoutParams(params);
+        // Crea l'ImageView
+        ImageButton deleteImageView = new ImageButton(this);
+        LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        imageViewParams.setMargins(dpToPx(0), dpToPx(15), 0, 0);
+        deleteImageView.setTag("deleteContact" + n);
+        deleteImageView.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        deleteImageView.setLayoutParams(imageViewParams);
+        deleteImageView.setImageResource(R.drawable.trash);
 
         if(call){
-            editTextContattoEm.setHint(contatto);
-            editTextTelefonoEm.setHint(numero);
-
+            contattoEditText.setText(contatto);
+            telefonoEditText.setText(numero);
         }
 
-        //add edit text to layout
-        lytContTel.addView(editTextContattoEm);
-        lytContTel.addView(editTextTelefonoEm);
+        // Aggiungi tutti gli elementi al LinearLayout
+        newLinearLayout.addView(contattoEditText);
+        newLinearLayout.addView(telefonoEditText);
+        newLinearLayout.addView(deleteImageView);
 
-        layout.addView(lytContTel);
+        // Infine, aggiungi il nuovo LinearLayout al LinearLayout padre
+        layout.addView(newLinearLayout);
+
+        String tag = "deleteContact" + n;
+        if(n==2){
+            etContattoEm2 = contattoEditText;
+            etTelefonoEm2 = telefonoEditText;
+            deleteContact2 = (ImageButton) layout.findViewWithTag(tag);
+            deleteContact2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    contattoEditText.setText("");
+                    telefonoEditText.setText("");
+                }
+            });
+        } else if (n==3) {
+            etContattoEm3 = contattoEditText;
+            etTelefonoEm3 = telefonoEditText;
+            deleteContact3 = (ImageButton) layout.findViewWithTag(tag);
+            deleteContact3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    contattoEditText.setText("");
+                    telefonoEditText.setText("");
+                }
+            });
+        } else if (n==4) {
+            etContattoEm4 = contattoEditText;
+            etTelefonoEm4 = telefonoEditText;
+            deleteContact4 = (ImageButton) layout.findViewWithTag(tag);
+            deleteContact4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    contattoEditText.setText("");
+                    telefonoEditText.setText("");
+                }
+            });
+        } else if (n==5) {
+            etContattoEm5 = contattoEditText;
+            etTelefonoEm5 = telefonoEditText;
+            deleteContact5 = (ImageButton) layout.findViewWithTag(tag);
+            deleteContact5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    contattoEditText.setText("");
+                    telefonoEditText.setText("");
+                }
+            });
+        }
     }
 
     // Conversione da dp a px
@@ -215,4 +310,20 @@ public class ChangeSanitaryActivity extends AppCompatActivity {
             isActivityStarted = true;
         }
     }
+
+    private String concatena(String s1, String s2, String s3, String s4, String s5){
+        String[] arr = {s1, s2, s3, s4, s5};
+        String[] newarr = Arrays.stream(arr)
+                .filter(s -> (s != null && !s.isEmpty()))
+                .toArray(String[]::new);
+        String s = "";
+        for (int i=0; i< newarr.length; i++){
+            if(i==0)
+                s += newarr[i];
+            else
+                s += ", " + newarr[i];
+        }
+        return s;
+    }
+
 }

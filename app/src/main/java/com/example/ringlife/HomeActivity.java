@@ -46,8 +46,8 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private LocationManager locationManager;
     private LocationListener locationListener;
     /* Dichiarazione varibili Rilevamento Incidente */
-    private static final int SOUND_THRESHOLD = 30500; // Soglia di volume per rilevare un suono forte (puoi regolarla in base alle tue esigenze)
-    private static final float threshold = 200.0f; // Modifica la soglia a seconda delle tue esigenze
+    private static final int SOUND_THRESHOLD = 32500; // Soglia di volume per rilevare un suono forte (puoi regolarla in base alle tue esigenze)
+    private static final float threshold = 80.0f; // Modifica la soglia a seconda delle tue esigenze
     private MediaRecorder mediaRecorder;
     private boolean isRecording = false;
     private SensorManager sensorManager;
@@ -91,9 +91,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             tvAddress.setText(newTextS);
         }
 
-
-        // Verifica se ci sono permessi mancanti
-        if (MainActivity.missingPermissions.isEmpty()) {
             checkLocationSettings();
             // Hai tutti i permessi necessari
             // Inizializza il servizio di localizzazione
@@ -115,14 +112,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             accidentDetected = false;
             startRecording();
 
-        }else{
-            // Permessi negati
-            Toast.makeText(this, "Permessi negati, Riprova", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(HomeActivity.this, MainActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-            finish();
-        }
 
         bttSos.setOnClickListener(new View.OnClickListener() {
             @Override
