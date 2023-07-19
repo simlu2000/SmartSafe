@@ -252,7 +252,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                         mediaPrec = micrData.media();
                     }else{
                         float media = micrData.media();
-                        if ((((media-mediaPrec)/mediaPrec)*100) >= 40 && media > SOUND_THRESHOLD) {
+                        if ((((media-mediaPrec)/mediaPrec)*100) >= 87 && media > SOUND_THRESHOLD) {
                             if (micrFlag < 3) micrFlag++;
                         } else if(micrFlag>0 && media > SOUND_THRESHOLD){
                             if (micrFlag < 3) micrFlag++;
@@ -304,7 +304,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             if(accData.size() > 1) {
                 float delta = accData.deltaMedio();
 
-                if ((acceleration < 10 && acceleration > 9) && delta < ACC_THRESHOLD){
+                if ((acceleration < 10.3 && acceleration > 9.3) && delta < ACC_THRESHOLD){
                     accFlag=3;
                     controlloFlag();
                 } else if (delta < ACC_THRESHOLD) {
