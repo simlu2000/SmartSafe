@@ -304,7 +304,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             if(accData.size() > 1) {
                 float delta = accData.deltaMedio();
 
-                if (acceleration < 0.9 && delta < ACC_THRESHOLD){
+                if ((acceleration < 10 && acceleration > 9) && delta < ACC_THRESHOLD){
                     accFlag=3;
                     controlloFlag();
                 } else if (delta < ACC_THRESHOLD) {
