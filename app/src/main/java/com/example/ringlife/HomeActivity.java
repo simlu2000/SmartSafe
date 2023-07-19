@@ -17,6 +17,7 @@ import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -46,15 +47,22 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private LocationManager locationManager;
     private LocationListener locationListener;
     /* Dichiarazione varibili Rilevamento Incidente */
-    private static final int SOUND_THRESHOLD = 32500; // Soglia di volume per rilevare un suono forte (puoi regolarla in base alle tue esigenze)
-    private static final float threshold = 80.0f; // Modifica la soglia a seconda delle tue esigenze
+    // INIZIALIZZAZIONE VETTORI DEI 3 SENSORI
+    public LimitVector<Float> gpsData = new LimitVector<Float>(3);
+    public LimitVector<Float> accData = new LimitVector<Float>(3);
+    public LimitVector<Float> micrData = new LimitVector<Float>(10);
+    // INIZIALIZZARE I 3 FLAG
+    public int gpsFlag = 0;
+    public int accFlag = 0;
+    public int micrFlag = 0;
+    private float mediaPrec = 0;
+    private static final float SOUND_THRESHOLD = 18500; // Soglia di volume per rilevare un suono forte (puoi regolarla in base all'esigenze)
+    private static final float ACC_THRESHOLD = (float)(-4*9.8); // Soglia di una frenata brusca
     private MediaRecorder mediaRecorder;
     private boolean isRecording = false;
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private float previousSpeed;
-    private boolean accidentDetected;
-    /* Dichiarazione varibili altre */
+    /* Dichiarazione altre varibili */
     private boolean isActivityStarted = false;
     private PersonData dbPerson;
 
@@ -91,32 +99,32 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             tvAddress.setText(newTextS);
         }
 
-            checkLocationSettings();
-            // Hai tutti i permessi necessari
-            // Inizializza il servizio di localizzazione
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationListener = new MyLocationListener();
-            // Permesso accordato, puoi iniziare a utilizzare la localizzazione
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            }
+        checkLocationSettings();
+        // Hai tutti i permessi necessari
+        // Inizializza il servizio di localizzazione
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new MyLocationListener();
+        // Permesso accordato, puoi iniziare a utilizzare la localizzazione
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
 
-            // Inizializzo tutti gli oggetti utili per velocità, posizionamento
-            // e rilevamento incidenti
-            geoApiContext = new GeoApiContext.Builder()
-                    .apiKey(API_KEY)
-                    .build();
-            sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            previousSpeed = 0.0f;
-            accidentDetected = false;
-            startRecording();
+        // Inizializzo tutti gli oggetti utili per velocità, posizionamento
+        // e rilevamento incidenti
+        geoApiContext = new GeoApiContext.Builder()
+                .apiKey(API_KEY)
+                .build();
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        // Inizio salvataggio dati AUDIO
+        startRecording();
 
 
         bttSos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callAlarm("Attivazione SOS Manuale");
+                callDetection("Attivazione SOS Manuale");
             }
         });
 
@@ -136,7 +144,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
 
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, accelerometer, 1000000);
 
     }
 
@@ -167,11 +175,44 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             startActivity(intent);
         }
     }
-
-    private void callAlarm(String str){
+    private void azzeraFlag(){
+        accFlag = 0;
+        gpsFlag = 0;
+        micrFlag = 0;
+    }
+    private void controlloFlag(){
+        int tot = accFlag + gpsFlag;if(tot>0 && tot<3 && micrFlag>1){
+            azzeraFlag();
+            callDetection("Probabilità incidente medio");
+        } else if (tot>2 && tot<5) {
+            azzeraFlag();
+            if(micrFlag<2){
+                if(!(accFlag == 0 || gpsFlag == 0) && micrFlag != 0)
+                    callDetection("Probabilità incidente medio");
+            }else {
+                callSOS("Probabilità incidente forte");
+            }
+        }else if(tot>4){
+            azzeraFlag();
+            if(micrFlag==0){
+                callDetection("Probabilità incidente medio");
+            }else {
+                callSOS("Probabilità incidente forte");
+            }
+        }
+    }
+    private void callDetection(String str){
         if(!isActivityStarted){
-            Toast.makeText(HomeActivity.this, str, Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeActivity.this, str, Toast.LENGTH_LONG).show();
             Intent intentDetect = new Intent(getString(R.string.LAUNCH_DETECTIONACTIVITY));
+            startActivity(intentDetect);
+            isActivityStarted = true;
+        }
+    }
+    private void callSOS(String str){
+        if(!isActivityStarted){
+            Toast.makeText(HomeActivity.this, str, Toast.LENGTH_LONG).show();
+            Intent intentDetect = new Intent(getString(R.string.LAUNCH_SOSACTIVITY));
             startActivity(intentDetect);
             isActivityStarted = true;
         }
@@ -183,6 +224,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        //mediaRecorder.setAudioSamplingRate(1000000);
         String outputFile = getFilesDir().getAbsolutePath() + "/audio.3gp";
         mediaRecorder.setOutputFile(outputFile);
 
@@ -204,17 +246,24 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void run() {
                 while (isRecording) {
-                    int amplitude = mediaRecorder.getMaxAmplitude();
-                    if (amplitude > SOUND_THRESHOLD) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                callAlarm("Rumore alto rilevato!");
-                            }
-                        });
+
+                    micrData.addElementAtBeginning((float)mediaRecorder.getMaxAmplitude());
+                    if(mediaPrec==0) {
+                        mediaPrec = micrData.media();
+                    }else{
+                        float media = micrData.media();
+                        if ((((media-mediaPrec)/mediaPrec)*100) >= 40 && media > SOUND_THRESHOLD) {
+                            if (micrFlag < 3) micrFlag++;
+                        } else if(micrFlag>0 && media > SOUND_THRESHOLD){
+                            if (micrFlag < 3) micrFlag++;
+                        }else {
+                            if (micrFlag > 0) micrFlag--;
+                        }
+
+                        mediaPrec = media;
                     }
                     try {
-                        Thread.sleep(1000); // Controlla il livello di suono ogni secondo (puoi regolare l'intervallo in base alle tue esigenze)
+                        Thread.sleep(100); // Controlla il livello di suono ogni secondo (puoi regolare l'intervallo in base alle tue esigenze)
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -250,22 +299,22 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             // Calcola l'accelerazione totale
             float acceleration = (float) Math.sqrt(x * x + y * y + z * z);
 
-            // Converti l'accelerazione totale in velocità approssimativa
-            float speed = acceleration * 3.6f; // m/s to km/h
+            //AGGIUNTA NEL VETTORE DELL'ACCELLERAZIONE AL METRO/SECONDO^2
+            accData.addElementAtBeginning(acceleration);
+            if(accData.size() > 1) {
+                float delta = accData.deltaMedio();
 
-            // Calcola la variazione di velocità rispetto alla velocità precedente
-            float speedChange = Math.abs(speed - previousSpeed);
-
-            // Verifica se è stata rilevata una variazione significativa di velocità
-            if (speedChange > threshold) {
-                // Rilevato un possibile incidente
-                accidentDetected = true;
-                // Puoi eseguire qui le azioni appropriate, come inviare una notifica di emergenza o contattare i servizi di emergenza
-                // Passare alla schermata di rischiesta "Stai bene?"
-                callAlarm("Possibile incidente rilevato!");
+                if (acceleration < 0.9 && delta < ACC_THRESHOLD){
+                    accFlag=3;
+                    controlloFlag();
+                } else if (delta < ACC_THRESHOLD) {
+                    if (accFlag < 3) accFlag++;
+                    controlloFlag();
+                } else {
+                    if (accFlag > 0) accFlag--;
+                }
+                Log.d("ACCELLERAZIONE", "accData: " + accData + " Delta: " + delta + " AccFlag: " + accFlag);
             }
-
-            previousSpeed = speed;
         }
     }
 
@@ -288,6 +337,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             // Ottieni la velocità di movimento in metri al secondo
             float speed = location.getSpeed();
 
+
             // Salvo il calcolo della velocità in km/h in una Var globale
             ((LocationData) getApplication()).setVelocita((speed * 3.6f));
 
@@ -299,6 +349,23 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             tvVelocita.setText(newTextV);
             newTextC = currentTextC + "\nLatitudine: " + latitude + "\nLongitudine: " + longitude;
             tvCoordinate.setText(newTextC);
+
+            //AGGIUNTA NEL VETTORE DELLA VELOCITA' AL METRO/SECONDO^2
+            gpsData.addElementAtBeginning((float)speed);
+            if(gpsData.size() > 1) {
+                float delta = gpsData.deltaMedio();
+
+                if (speed == 0 && delta < ACC_THRESHOLD){
+                    gpsFlag=3;
+                    controlloFlag();
+                } else if (delta < ACC_THRESHOLD) {
+                    if (gpsFlag < 3) gpsFlag++;
+                    controlloFlag();
+                } else {
+                    if (gpsFlag > 0) gpsFlag--;
+                }
+                Log.d("GPS", "gpsData: " + gpsData + " Delta: " + delta + " GPSFlag: " + gpsFlag);
+            }
         }
 
         private class GetAddressTask extends AsyncTask<LatLng, Void, String> {

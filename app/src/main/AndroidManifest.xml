@@ -30,7 +30,8 @@
         android:theme="@style/Theme.RingLife">
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -38,7 +39,8 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.RegisterActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -46,7 +48,8 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.HomeActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -54,7 +57,8 @@
         </activity>
         <activity
             android:name=".SosActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.SosActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -62,7 +66,8 @@
         </activity>
         <activity
             android:name=".DetectionActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.DetectionActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -71,7 +76,8 @@
 
         <activity
             android:name=".ProfileActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.ProfileActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -80,7 +86,8 @@
 
         <activity
             android:name=".ChangePersonalActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.ChangePersonalActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -89,7 +96,8 @@
 
         <activity
             android:name=".ChangeSanitaryActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.ChangeSanitaryActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -98,7 +106,8 @@
 
         <activity
             android:name=".ManualeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.ManualeActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -107,7 +116,8 @@
 
         <activity
             android:name=".CreditiActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.CreditiActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
@@ -116,7 +126,8 @@
 
         <activity
             android:name=".PrivacyActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.ringlife.PrivacyActivity.java"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
